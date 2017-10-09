@@ -16,8 +16,20 @@ import simplejson
 import psycopg2
 from django.contrib.auth.views import login
 from django.contrib.auth.models import User
+import os
+from urllib import parse
 
-#cur = conn.cursor()
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["DATABASE_URL"])
+
+conn = psycopg2.connect(
+    database=url.path[1:],
+    user=url.username,
+    password=url.password,
+    host=url.hostname,
+    port=url.port
+)
+
 # Lists all datasets
 # datasets/
 class DataSetList(APIView):
@@ -71,7 +83,6 @@ class DataView(generic.ListView):
         return combined_queryset.order_by('-DataSet_Posted', '-id')
 
 def DataDetailView(request, pk):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     try:
         dataset = DataSet.objects.get(pk=pk)
         cur = conn.cursor()
@@ -117,7 +128,7 @@ def NewDataView(request):
             dataset.DataSet_Poster = request.user
             dataset.save()
             title = DataSet.objects.last()
-            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+
             cur = conn.cursor()
             cur.execute("""CREATE TABLE "%s"(id serial PRIMARY KEY);""" % str(title.id))
             conn.commit();
@@ -141,7 +152,7 @@ def NewData2View(request, number):
             if form.is_valid():
                 columnname = request.POST.getlist('cname').pop(index)
                 columntype = request.POST.getlist('cvalue').pop(index)
-                conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+
                 cur = conn.cursor()
                 cur.execute("""ALTER TABLE "{}" ADD COLUMN "{}" {};""".format(lastDataSet.id, columnname, columntype))
                 conn.commit();
@@ -155,7 +166,6 @@ def NewData2View(request, number):
     return render(request, 'datasets/newdata2.html', context)
 
 def AddDataView(request, pk):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}";""".format(title.id))
@@ -197,7 +207,7 @@ def AboutView(request):
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-#         conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+#
 #         cur = conn.cursor()
 #         title = DataSet.objects.get(pk=self.kwargs['pk'])
 #         #python object
@@ -227,7 +237,7 @@ def AboutView(request):
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-#         conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+#
 #         cur = conn.cursor()
 #         title = DataSet.objects.get(pk=self.kwargs['pk'])
 #         sql = """COPY %s TO STDOUT WITH CSV HEADER DELIMITER AS ','"""
@@ -247,7 +257,7 @@ def AboutView(request):
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-#         conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+#
 #         cur = conn.cursor()
 #         title = DataSet.objects.get(pk=self.kwargs['pk'])
 #         cur.execute("""SELECT row_to_json({}) FROM {};""".format(title.DataSet_Title, title.DataSet_Title))
