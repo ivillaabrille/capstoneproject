@@ -32,7 +32,7 @@
           {{ dataset.DataSet_Description }}
             <br><br><br>
             <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
-            <p>This dataset currently has {{ count }} records. The records are as follows: {{ rows }}</p>
+            <p>This dataset currently has {{ count }} records. The records are as the format: {{ rows|slice:":1" }}</p>
 
             {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
             <center>
@@ -44,14 +44,23 @@
 
             <br>
             <center>
-                <div id="graphdiv2" style="width:500px; height:300px;"></div>
-    <script type="text/javascript">
-      g2 = new Dygraph(
-        document.getElementById("graphdiv2"),
-        "/media/data.csv", // path to CSV file
-        {}          // options
-      );
-    </script>
+        <script type="text/javascript" charset="utf-8">
+            d3.text("/media/data.csv", function(data) {
+                var parsedCSV = d3.csv.parseRows(data);
+
+                var container = d3.select("body")
+                    .append("table")
+
+                    .selectAll("tr")
+                        .data(parsedCSV).enter()
+                        .append("tr")
+
+                    .selectAll("td")
+                        .data(function(d) { return d; }).enter()
+                        .append("td")
+                        .text(function(d) { return d; });
+            });
+        </script>
             </center>
 
 

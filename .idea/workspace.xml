@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="d4cfe557-6660-4bfe-991d-3320735bccb4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/datasets/views.py" afterPath="$PROJECT_DIR$/datasets/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,7 +37,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/datasets/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="391">
@@ -46,6 +45,16 @@
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="datadetail.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="357">
+              <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -108,7 +117,6 @@
         <option value="$PROJECT_DIR$/datasets/templates/datasets/newdata.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/signin.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/signup.html" />
-        <option value="$PROJECT_DIR$/datasets/templates/datasets/datadetail.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/data.html" />
         <option value="$PROJECT_DIR$/datasets/urls.py" />
         <option value="$PROJECT_DIR$/datasets/forms.py" />
@@ -123,14 +131,15 @@
         <option value="$PROJECT_DIR$/capstoneproject/wsgi.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/datasets/views.py" />
+        <option value="$PROJECT_DIR$/datasets/templates/datasets/datadetail.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="787" />
-    <option name="y" value="11" />
-    <option name="width" value="1135" />
-    <option name="height" value="1071" />
+    <option name="x" value="895" />
+    <option name="y" value="1" />
+    <option name="width" value="1011" />
+    <option name="height" value="1037" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -192,7 +201,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../django-forum-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../capstonev2/capstoneproject" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
@@ -553,13 +562,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -684,6 +686,14 @@
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>
