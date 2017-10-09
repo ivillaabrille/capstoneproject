@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <meta name="theme-color" content="#2196F3">
+    <title>{% block title %}HALANG and TANOM: Datasets Portal{% endblock %}</title>
+    {% load staticfiles %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- CSS  -->
+    <link href="{% static 'datasets/min/plugin-min.css' %}" type="text/css" rel="stylesheet">
+    <link href="{% static 'datasets/min/custom-min.css' %}" type="text/css" rel="stylesheet" >
+    <link rel="stylesheet" href="{% static 'datasets/css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'datasets/css/dygraph.css' %}" />
+    <link rel="stylesheet" href="{% static 'datasets/css/materialize.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'datasets/css/materialize.css' %}" />
+    <link rel="stylesheet" href="{% static 'datasets/css/font-awesome.min.css' %}" />
+    <link rel="stylesheet" href="https://static.mendeley.com/weblet-data/build/1203/css/main.css">
+
+
+    <!-- JS -->
+    <script src="{% static 'datasets/min/plugin-min.js' %}"></script>
+    <script src="{% static 'datasets/min/custom-min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/dygraph.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/index.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/materialize.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/materialize.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'datasets/js/modernizr.js' %}"></script>
+    <script src=///assets.adobedtm.com/376c5346e33126fdb6b2dbac81e307cbacfd7935/satelliteLib-4a7497b2b1d1900fe42ef2c13e32daeedf9c1642.js></script>
+    <script type="text/javascript" async="" src=https://cdn.optimizely.com/js/238413261.js></script>
+    <script>
+      $(document).ready(function(){
+          $("#dropdown-button1").dropdown();;
+    $("#dropdown-button2").dropdown();;
+              $("#dropdown-button3").dropdown();;
+    $("#dropdown-button4").dropdown();;
+  });
+    </script>
+
+
+</head>
+<body id="top" class="scrollspy">
+
+
+<!-- Pre Loader -->
+<div id="loader-wrapper">
+    <div id="loader"></div>
+
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+
+</div>
+
+<!--Navigation-->
+  <div class="navbar-fixed">
+    <nav id="nav_f" class="default_color" role="navigation">
+        <div class="container">
+            <div class="nav-wrapper green">
+            <a href="{% url 'datasets:index' %}" id="logo-container" class="brand-logo">  <img src="{% static 'datasets/img/logo.png' %}", width="200px" , height="100px"></a>
+            <style>
+/* unvisited link */
+a:link {
+    color: #26bf18;
+}
+
+/* visited link */
+a:visited {
+    color:#26bf18;
+}
+
+/* mouse over link */
+a:hover {
+    color: #26bf18;
+
+}
+</style>
+
+                    <ul id="dropdown1" class="dropdown-content">
+                        <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
+                        <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
+                    </ul>
+                    <ul id="dropdown2" class="dropdown-content">
+                        <li><a href="{% url 'datasets:signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'datasets:signin' %}">Sign In</a></li>
+                    </ul>
+                    <ul id="dropdown3" class="dropdown-content">
+                        <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
+                        <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
+                    </ul>
+                    <ul id="dropdown4" class="dropdown-content">
+                        <li><a href="{% url 'datasets:signup' %}">Sign Up</a></li>
+                        <li><a href="{% url 'datasets:signin' %}">Sign In</a></li>
+                    </ul>
+
+                <ul class="right hide-on-med-and-down">
+                    <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
+                    <li><a href="{% url 'datasets:about' %}">About Us</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a id="dropdown-button1" href="#!" data-activates="dropdown1">{{ user.first_name }} {{ user.last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% else %}
+                        <li><a id="dropdown-button2" href="#!" data-activates="dropdown2">Anonymous User<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% endif %}
+                </ul>
+                <ul id="nav-mobile" class="side-nav">
+                   <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
+                    <li><a href="{% url 'datasets:about' %}">About Us</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a id="dropdown-button3" href="#!" data-activates="dropdown3">{{ user.last_name }}, {{ user.first_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% else %}
+                        <li><a id="dropdown-button4" href="#!" data-activates="dropdown4">Anonymous User<i class="material-icons right">arrow_drop_down</i></a></li>
+                    {% endif %}
+                </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+            </div>
+        </div>
+    </nav>
+</div>
+{% block body %}
+{% endblock %}
+
+    </body>
+</html>

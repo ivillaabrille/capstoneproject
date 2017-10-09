@@ -1,0 +1,14 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<br><br><br><br><br><br>
+<center><h2>You have successfully Signed Out.</h2></center>
+<main role="main" id="maincontent" class="content">
+    <div class="content-inner ">
+        <center><a href="{% url 'datasets:index' %}">Back to Home.</a></center>
+        <center><a href="{% url 'datasets:signin' %}">Sign In.</a></center>
+            </div>
+</main>
+
+
+{% endblock %}

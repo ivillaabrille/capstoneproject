@@ -1,0 +1,60 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+          <div class="navbar">
+    <nav id="nav_f" class="white" role="navigation">
+              <ul class="right   hide-on-med-and-down">
+                <li class="header-mdata-nav-expandable">
+                  <a href="{% url 'datasets:data' %}" class="header-mdata-nav-loggedout-nav-item header-mdata-nav-item-expands">Browse datasets<span class="icon icon-chevron-down-accent"></span></a>
+                  {% if user.is_authenticated %}
+                    <li class="header-mdata-nav-expandable">
+                      <a href="{% url 'datasets:mydata' %}" class="header-mdata-nav-loggedout-nav-item header-mdata-nav-item-expands">My datasets<span class="icon icon-chevron-down-accent"></span></a>
+                    </li>
+                  {% endif %}
+              </ul>
+            </nav>
+          </div>
+
+  <div class="container">
+        <h2 class="header text_b">Current Datasets Available</h2>
+        <div class="row">
+
+    {% if all_dataset %}
+            {% for dataset in all_dataset %}
+<a class="datasetslist-dataset-title-link" href="{% url 'datasets:datadetail' dataset.id %}">
+           <img src="{% static 'datasets/img/pic6.jpg' %}" alt="Smiley face" style="float:left;width:100px;height:150px;">
+          <h2 class="datasetslist-dataset-title">
+            {{ dataset.DataSet_Title }}
+          </h2>
+        </a>
+        <div class="datasetslist-dataset-files-icon">
+            <div class="dataset-icon">  </a>
+            </div>
+            </div>
+        <div class="datasetslist-dataset-metadata">
+          <div class="contributor-list-container datasetslist-dataset-contributors">
+          <ul class="contributor-list">
+              <li class="contributor-list-contributor" data-component="contributorTooltip">
+                <a data-component="contributorProfileLink" data-component-options='{"profileLink":"https://www.mendeley.com/profiles/mostafa-al-sayed/"}' class="contributor-list-contributor-name" href="#" target="_blank">{{ dataset.DataSet_Poster }}</a>
+      </li>
+          </ul>
+        </div>
+          <p>
+            <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
+              <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}</span>
+          </p>
+        <div class="datasetslist-dataset-description">
+          {{ dataset.DataSet_Description|slice:":143" }}...
+<hr>
+        </div>
+      <div class="datasetslist-dataset-footer">
+      </div>
+            {% endfor %}
+    {% else %}
+        <h3>We don't have any Datasets as of now... </h3>
+    {% endif %}
+        </div>
+        </div>
+  </div>
+{% endblock %}

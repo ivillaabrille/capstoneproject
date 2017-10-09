@@ -1,0 +1,69 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<br><br><br><br><br><br>
+<center><h2>Sign Up Form</h2></center>
+<main role="main" id="maincontent" class="content">
+    <div class="content-inner ">
+          <form action="{% url 'datasets:signup' %}" method="post" class="" id="newdata2-form" role="form">
+              {% csrf_token %}
+              <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Username</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.username.name }}" name="{{ form.username.name }}" value="" placeholder="Enter your Username" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+            <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">First Name</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.first_name.name }}" name="{{ form.first_name.name }}" value="" placeholder="Enter your First Name" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+                          <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Last Name</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.last_name.name }}" name="{{ form.last_name.name }}" value="" placeholder="Enter your Last Name" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+                          <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Email Address</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="email" id="id_{{ form.email.name }}" name="{{ form.email.name }}" value="" placeholder="Enter your Email Address" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+                          <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Password</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="password" id="id_{{ form.password1.name }}" name="{{ form.password1.name }}" value="" placeholder="Enter Password" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+                          <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Password Confirmation</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="password" id="id_{{ form.password2.name }}" name="{{ form.password2.name }}" value="" placeholder="Enter Password Again" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+
+              <div class="col s6  wow fadeIn" data-wow-delay="0.3s" style="padding-bottom: 40px;">
+              <br><br>
+               <button class="btn waves-effect waves-light red darken-1" type="submit">Submit
+                        </button>
+              </div>
+          </form>
+            </div>
+</main>
+
+
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<br><br><br><br><br><br>
+<main role="main" id="maincontent" class="content">
+    <div class="content-inner ">
+          <form action="." method="post" class="" id="newdata2-form" role="form">
+              {% csrf_token %}
+              {% for form in forms %}
+            <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b"> Column Name</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.cname.name }}" name="{{ form.cname.name }}" value="" placeholder="Enter Column Name (Note: Please no Spaces)" data-dataset-field autofocus/>
+                </div>
+              </div>
+              </div>
+
+              <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b"> Column Value</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" name="{{ form.cvalue.name }}" list="exampleList" placeholder="Choose from the dropdown list the type of your column" data-dataset-field autofocus/>
+                    <datalist id="exampleList">
+                    {% for x,y in form.fields.cvalue.choices %}
+                    <option value="{{ x }}"{% if form.fields.cvalue.value == x %} selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+              </datalist>
+                </div>
+              </div>
+              </div>
+              {% endfor %}
+
+              <div class="col s6  wow fadeIn" data-wow-delay="0.3s" style="padding-bottom: 40px;">
+              <br><br>
+               <button class="btn waves-effect waves-light" type="submit" name="action" >Submit
+                        </button>
+              </div>
+          </form>
+            </div>
+</main>
+ {% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+
+<div class="content-inner ">
+    <ul class="datasetslist">
+    <li class="datasetslist-dataset">
+    <div class="container" >
+<a class="datasetslist-dataset-title-link" href="{% url 'datasets:datadetail' dataset.id %}">
+           <img src="{% static 'datasets/img/pic6.jpg' %}" alt="Smiley face" style="float:left;width:100px;height:150px;">
+          <h2 class="datasetslist-dataset-title">
+            {{ dataset.DataSet_Title }}
+          </h2>
+        </a>
+        <div class="datasetslist-dataset-files-icon">
+            <div class="dataset-icon">  </a>
+            </div>
+            </div>
+        <div class="datasetslist-dataset-metadata">
+          <div class="contributor-list-container datasetslist-dataset-contributors">
+          <ul class="contributor-list">
+              <li class="contributor-list-contributor" data-component="contributorTooltip">
+                <a data-component="contributorProfileLink" data-component-options='{"profileLink":"https://www.mendeley.com/profiles/mostafa-al-sayed/"}' class="contributor-list-contributor-name" href="#" target="_blank">{{ dataset.DataSet_Poster }}</a>
+      </li>
+          </ul>
+        </div>
+          <p>
+            <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
+              <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}</span>
+          </p>
+        <div class="datasetslist-dataset-description">
+          {{ dataset.DataSet_Description }}
+            <br><br><br>
+            <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
+            <p>This dataset currently has {{ count }} records. The records are as follows: {{ rows }}</p>
+
+            {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
+            <center>
+                    <a href="{% url 'datasets:adddata'  dataset.id %}">
+                        <button class="btn waves-effect waves-light red darken-1" type="submit">Add Record</button>
+                    </a>
+            </center>
+            {% endif %}
+
+            <br>
+            <center>
+                <div id="graphdiv2" style="width:500px; height:300px;"></div>
+    <script type="text/javascript">
+      g2 = new Dygraph(
+        document.getElementById("graphdiv2"),
+        "/media/data.csv", // path to CSV file
+        {}          // options
+      );
+    </script>
+            </center>
+
+
+            <!--<div id="graphdiv3"-->
+          <!--style="width:500px; height:300px;"></div>-->
+        <!--<script type="text/javascript">-->
+          <!--g3 = new Dygraph(-->
+            <!--document.getElementById("graphdiv3"),-->
+            <!--"temperatures.csv",-->
+            <!--{-->
+              <!--rollPeriod: 7,-->
+              <!--showRoller: true-->
+            <!--}-->
+          <!--);-->
+        <!--</script>-->
+
+            <!--<div id="graphdiv4"-->
+          <!--style="width:480px; height:320px;"></div>-->
+        <!--<script type="text/javascript">-->
+          <!--g4 = new Dygraph(-->
+            <!--document.getElementById("graphdiv4"),-->
+            <!--"/media/data.csv",-->
+            <!--{-->
+              <!--rollPeriod: 7,-->
+              <!--showRoller: true,-->
+              <!--errorBars: true,-->
+            <!--}-->
+          <!--);-->
+        <!--</script>-->
+<center>
+        <a href="/media/data.csv" download>
+        <button class="btn waves-effect waves-light red darken-1" type="submit">Get CSV</button>
+    </a>
+
+    <a href="/media/data.json" download>
+        <button class="btn waves-effect waves-light red darken-1" type="submit">Get JSON</button>
+    </a>
+</center>
+
+
+<hr>
+
+</div>
+        </div>
+    </div>
+    </li>
+    </ul>
+</div>
+
+
+
+{% endblock %}

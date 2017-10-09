@@ -1,0 +1,45 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<br><br><br><br><br><br>
+
+<main role="main" id="maincontent" class="content">
+    <div class="content-inner ">
+        <form action="{% url 'datasets:newdata' %}" method="post" class="" id="newdata-form" role="form">
+            {% csrf_token %}
+            <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Title</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.DataSet_Title.name }}" name="{{ form.DataSet_Title.name }}" value="" placeholder="Enter a title for your Dataset" data-dataset-field autofocus/>
+                    <label for="id_{{ form.DataSet_Title.name }}">{{ form.DataSet_Description.label }}</label>
+                </div>
+              </div>
+              </div>
+              <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Description</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.DataSet_Description.name }}" name="{{ form.DataSet_Description.name }}" value="" placeholder="Enter a Description for your Dataset" data-dataset-field autofocus/>
+                    <label for="id_{{ form.DataSet_Description.name }}">{{ form.DataSet_Description.label }}</label>
+                </div>
+                </div>
+              </div>
+            <div class="layout layout-fixedright">
+              <div class="layout-column">
+                 <h2 class="section-heading header text_b">Number of Columns</h2>
+                <div class="form-control contributor-list-edit-container">
+                  <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="noofcolumns" name="noofcolumns" value="" placeholder="Enter the Number of Columns you want for your Dataset" data-dataset-field autofocus/>
+                </div>
+                </div>
+              </div>
+
+
+            <br><br>
+               <button class="btn waves-effect waves-light red darken-1" type="submit">Submit
+                        </button>
+                      </form>
+    </div>
+</main>
+
+ {% endblock %}
