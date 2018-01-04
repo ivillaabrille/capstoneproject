@@ -37,11 +37,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/datasets/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="171">
+              <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -49,20 +49,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="datadetail.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/capstoneproject/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="554">
+            <state relative-caret-position="299">
               <caret line="146" column="73" lean-forward="true" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
               <folding />
             </state>
@@ -89,8 +79,6 @@
       <find>home</find>
       <find>format</find>
       <find>DataSet_Title</find>
-      <find>dbname=postgres user=postgres password=capstone</find>
-      <find>conn = psycopg2.connect(&quot;dbname=postgres user=postgres password=capstone&quot;)</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -117,11 +105,13 @@
         <option value="$PROJECT_DIR$/datasets/templates/datasets/newdata.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/signin.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/signup.html" />
+        <option value="$PROJECT_DIR$/datasets/templates/datasets/datadetail.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/data.html" />
         <option value="$PROJECT_DIR$/datasets/urls.py" />
         <option value="$PROJECT_DIR$/datasets/forms.py" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/newdata2.html" />
         <option value="$PROJECT_DIR$/datasets/templates/datasets/index.html" />
+        <option value="$PROJECT_DIR$/datasets/views.py" />
         <option value="$PROJECT_DIR$/media/data.json" />
         <option value="$PROJECT_DIR$/media/data.csv" />
         <option value="$PROJECT_DIR$/runtime.txt" />
@@ -130,16 +120,14 @@
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/capstoneproject/wsgi.py" />
         <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/datasets/views.py" />
-        <option value="$PROJECT_DIR$/datasets/templates/datasets/datadetail.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="895" />
-    <option name="y" value="1" />
-    <option name="width" value="1011" />
-    <option name="height" value="1037" />
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="787" />
+    <option name="y" value="11" />
+    <option name="width" value="1135" />
+    <option name="height" value="1071" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -201,7 +189,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../capstonev2/capstoneproject" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../django-forum-master" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RecentsManager">
@@ -321,14 +309,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1096" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20522387" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3375" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32963374" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31979167" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -562,6 +550,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/base.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="408">
@@ -658,7 +653,7 @@
         <state relative-caret-position="272">
           <caret line="16" column="43" lean-forward="false" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
           <folding>
-            <element signature="e#232#241#0" expanded="false" />
+            <element signature="e#232#241#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -673,7 +668,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/capstoneproject/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="554">
+        <state relative-caret-position="299">
           <caret line="146" column="73" lean-forward="true" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
           <folding />
         </state>
@@ -681,19 +676,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/datasets/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="0" lean-forward="true" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state relative-caret-position="171">
+          <caret line="17" column="43" lean-forward="true" selection-start-line="17" selection-start-column="43" selection-end-line="17" selection-end-column="43" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/datasets/templates/datasets/datadetail.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="54" column="21" lean-forward="false" selection-start-line="54" selection-start-column="21" selection-end-line="54" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>

@@ -1,0 +1,21 @@
+{% extends 'datasets/base.html' %}
+{% load staticfiles %}
+{% block body %}
+<br><br><br><br><br><br>
+<main role="main" id="maincontent" class="content">
+  <div class="content-inner ">
+    <form action="." method="post" class="" id="newdata2-form" role="form">
+      {% csrf_token %}
+      {{form.as_p}}
+      <h2 class="section-heading header text_b">Are you sure you want to delete the record:  {{ rows }}</h2>
+      <div class="col s6  wow fadeIn" data-wow-delay="0.3s" style="padding-bottom: 40px;">
+        <br><br>
+        <button class="btn waves-effect waves-light" type="submit" name="action" >Yes
+        </button>
+        <button class="btn waves-effect waves-light">No, Go Back to the Dataset
+        </button>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

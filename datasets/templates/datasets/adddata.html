@@ -10,7 +10,7 @@
               {% for form in forms %}
             <div class="layout layout-fixedright">
               <div class="layout-column">
-                 <h2 class="section-heading header text_b">Data{{ index }}</h2>
+                 <h2 class="section-heading header text_b">Data for "{{ cname.pop }}" Column</h2>
                 <div class="form-control contributor-list-edit-container">
                   <input autocomplete="off" class="form-control-input form-control-input-dominant " type="text" id="id_{{ form.dvalue.name }}" name="{{ form.dvalue.name }}" value="" placeholder="Enter Value for the Corresponding Column" data-dataset-field autofocus/>
                 </div>

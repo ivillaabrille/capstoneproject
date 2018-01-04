@@ -3,113 +3,173 @@
 {% block body %}
 
 <div class="content-inner ">
-    <ul class="datasetslist">
+  <ul class="datasetslist">
     <li class="datasetslist-dataset">
-    <div class="container" >
-<a class="datasetslist-dataset-title-link" href="{% url 'datasets:datadetail' dataset.id %}">
-           <img src="{% static 'datasets/img/pic6.jpg' %}" alt="Smiley face" style="float:left;width:100px;height:150px;">
-          <h2 class="datasetslist-dataset-title">
-            {{ dataset.DataSet_Title }}
-          </h2>
-        </a>
-        <div class="datasetslist-dataset-files-icon">
-            <div class="dataset-icon">  </a>
-            </div>
-            </div>
-        <div class="datasetslist-dataset-metadata">
-          <div class="contributor-list-container datasetslist-dataset-contributors">
+      <div class="container" >
+        <a class="datasetslist-dataset-title-link" href="{% url 'datasets:datadetail' dataset.id %}">
+         <img src="{% static 'datasets/img/pic6.jpg' %}" alt="Smiley face" style="float:left;width:100px;height:150px;">
+         <h2 class="datasetslist-dataset-title">
+          {{ dataset.DataSet_Title }}
+        </h2>
+      </a>
+      <div class="datasetslist-dataset-files-icon">
+        <div class="dataset-icon">  </a>
+        </div>
+      </div>
+      <div class="datasetslist-dataset-metadata">
+        <div class="contributor-list-container datasetslist-dataset-contributors">
           <ul class="contributor-list">
-              <li class="contributor-list-contributor" data-component="contributorTooltip">
-                <a data-component="contributorProfileLink" data-component-options='{"profileLink":"https://www.mendeley.com/profiles/mostafa-al-sayed/"}' class="contributor-list-contributor-name" href="#" target="_blank">{{ dataset.DataSet_Poster }}</a>
-      </li>
+            <li class="contributor-list-contributor" data-component="contributorTooltip">
+              <a data-component="contributorProfileLink" data-component-options='{"profileLink":"https://www.mendeley.com/profiles/mostafa-al-sayed/"}' class="contributor-list-contributor-name" href="#" target="_blank">{{ dataset.DataSet_Poster }}</a>
+            </li>
           </ul>
         </div>
-          <p>
-            <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
-              <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}</span>
-          </p>
+        <p>
+          <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
+          <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}</span>
+        </p>
         <div class="datasetslist-dataset-description">
           {{ dataset.DataSet_Description }}
-            <br><br><br>
-            <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
-            <p>This dataset currently has {{ count }} records. The records are as the format: {{ rows|slice:":1" }}</p>
+          <br><br><br>
+          <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
+          <p>This dataset currently has {{ count }} records. The records are as the format: {{ rows|slice:":1" }}</p>
 
-            {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
-            <center>
-                    <a href="{% url 'datasets:adddata'  dataset.id %}">
-                        <button class="btn waves-effect waves-light red darken-1" type="submit">Add Record</button>
-                    </a>
-            </center>
-            {% endif %}
+          {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
+          <center>
+            <a href="{% url 'datasets:adddata'  dataset.id %}">
+              <button class="btn waves-effect waves-light red darken-1" type="submit">Add Record</button>
+            </a>
+          </center>
+          {% endif %}
 
-            <br>
-            <center>
-        <script type="text/javascript" charset="utf-8">
-            d3.text("/media/data.csv", function(data) {
+          <br>
+<!--           <center>
+            <script type="text/javascript" charset="utf-8">
+              d3.text("/media/data.csv", function(data) {
                 var parsedCSV = d3.csv.parseRows(data);
 
                 var container = d3.select("body")
-                    .append("table")
+                .append("table")
 
-                    .selectAll("tr")
-                        .data(parsedCSV).enter()
-                        .append("tr")
+                .selectAll("tr")
+                .data(parsedCSV).enter()
+                .append("tr")
 
-                    .selectAll("td")
-                        .data(function(d) { return d; }).enter()
-                        .append("td")
-                        .text(function(d) { return d; });
-            });
-        </script>
+                .selectAll("td")
+                .data(function(d) { return d; }).enter()
+                .append("td")
+                .text(function(d) { return d; });
+              });
+            </script>
+          </center> -->
+
+          <!--<div id="graphdiv3"-->
+          <!--style="width:500px; height:300px;"></div>-->
+          <!--<script type="text/javascript">-->
+          <!--g3 = new Dygraph(-->
+          <!--document.getElementById("graphdiv3"),-->
+          <!--"temperatures.csv",-->
+          <!--{-->
+          <!--rollPeriod: 7,-->
+          <!--showRoller: true-->
+          <!--}-->
+          <!--);-->
+          <!--</script>-->
+
+          <!--<div id="graphdiv4"-->
+          <!--style="width:480px; height:320px;"></div>-->
+          <!--<script type="text/javascript">-->
+          <!--g4 = new Dygraph(-->
+          <!--document.getElementById("graphdiv4"),-->
+          <!--"/media/data.csv",-->
+          <!--{-->
+          <!--rollPeriod: 7,-->
+          <!--showRoller: true,-->
+          <!--errorBars: true,-->
+          <!--}-->
+          <!--);-->
+          <!--</script>-->
+
+          <center>
+            <a href="{% url 'datasets:downloadCsv' dataset.id %}" download>
+              <button class="btn waves-effect waves-light red darken-1">Get CSV</button>
+            </a>
+
+            <a href="{% url 'datasets:dataset-detail' dataset.id %}">
+              <button class="btn waves-effect waves-light red darken-1">Goto API Endpoint</button>
+            </a>
+
+            <a href="{% url 'datasets:downloadJson' dataset.id %}" download>
+              <button class="btn waves-effect waves-light red darken-1">Get JSON</button>
+            </a>
+          </center>
+
+
+          <center>
+            <br>
+            <table class="centered">
+              <thead>
+                <tr>
+                  {% for i in colnames %}
+                  <th>{{i}}</th>
+                  {% endfor %}
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for i in rows %}
+                <tr>
+                  {% for o in i %}
+                  <td>{{o}}</td>
+                  {% endfor %}
+                  <td>
+                    <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
+                      <button class="btn waves-effect waves-light red darken-1">Edit Record</button>
+                    </a>
+                    <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
+                      <button class="btn waves-effect waves-light red darken-1">Delete Record</button>
+                    </a>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </center>
 
-
-            <!--<div id="graphdiv3"-->
-          <!--style="width:500px; height:300px;"></div>-->
-        <!--<script type="text/javascript">-->
-          <!--g3 = new Dygraph(-->
-            <!--document.getElementById("graphdiv3"),-->
-            <!--"temperatures.csv",-->
-            <!--{-->
-              <!--rollPeriod: 7,-->
-              <!--showRoller: true-->
-            <!--}-->
-          <!--);-->
-        <!--</script>-->
-
-            <!--<div id="graphdiv4"-->
-          <!--style="width:480px; height:320px;"></div>-->
-        <!--<script type="text/javascript">-->
-          <!--g4 = new Dygraph(-->
-            <!--document.getElementById("graphdiv4"),-->
-            <!--"/media/data.csv",-->
-            <!--{-->
-              <!--rollPeriod: 7,-->
-              <!--showRoller: true,-->
-              <!--errorBars: true,-->
-            <!--}-->
-          <!--);-->
-        <!--</script>-->
-<center>
-        <a href="/media/data.csv" download>
-        <button class="btn waves-effect waves-light red darken-1" type="submit">Get CSV</button>
-    </a>
-
-    <a href="/media/data.json" download>
-        <button class="btn waves-effect waves-light red darken-1" type="submit">Get JSON</button>
-    </a>
-</center>
-
-
-<hr>
-
-</div>
+          </div>
         </div>
-    </div>
+      </div>
     </li>
-    </ul>
+  </ul>
 </div>
+{% endblock %}
 
+{% block js %}
+<script>
+  $(document).ready(function(){
+    var DataSetUrl = '/api/datasets/{{ dataset.id }}/';
+    var datasetId = '{{ dataset.id }}';
+    var json = '{{json}}';
+    json = json.replace(/&#39;/g, "'")
+    json = json.replace(/&quot;/g, '"').slice(2, -2)
+    var params = {
+      Data: "" + json,
+      jsonifiedData_url: "http://hatodcatalog.herokuapp.com/data/{{ dataset.id }}/download/json/",
+      csvfiedData_url: "http://hatodcatalog.herokuapp.com/data/{{ dataset.id }}/download/csv/"
+    };
 
+    $.ajax({
+      type : 'PATCH',
+      url : DataSetUrl,
+      data : JSON.stringify(params),
+      contentType: 'application/json',
+      beforeSend: function(xhr, settings) {
+        xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+      },
+      success : function(json) {
+      },
+    });
+  });
+</script>
 
 {% endblock %}

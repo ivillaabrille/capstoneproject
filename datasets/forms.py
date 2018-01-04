@@ -19,16 +19,12 @@ class DataSetForm(forms.ModelForm):
         labels = {'DataSet_Title': '', 'DataSet_Description': ''}
 
 class ColumnForm(forms.Form):
-    VALUE_CHOICES = (
-        ('INTEGER', 'INTEGER'),
-        ('VARCHAR', 'VARCHAR'),
-    )
-
     cname = forms.CharField(max_length=100)
-    cvalue = forms.ChoiceField(choices=VALUE_CHOICES)
-
-    labels = {'cname': '', 'cvalue': ''}
+    labels = {'cname': ''}
 
 class DataForm(forms.Form):
     dvalue = forms.CharField(max_length=100)
     labels = {'dvalue': ''}
+
+class deleteRecordForm(forms.Form):
+    pass
