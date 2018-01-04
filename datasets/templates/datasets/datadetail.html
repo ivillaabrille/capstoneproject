@@ -124,12 +124,16 @@
                   <td>{{o}}</td>
                   {% endfor %}
                   <td>
+                  {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
                     <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
                       <button class="btn waves-effect waves-light red darken-1">Edit Record</button>
                     </a>
+                  {% endif %}
+                  {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
                     <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
                       <button class="btn waves-effect waves-light red darken-1">Delete Record</button>
                     </a>
+                  {% endif %}
                   </tr>
                   {% endfor %}
                 </tbody>
