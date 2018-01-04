@@ -154,8 +154,8 @@
     json = json.replace(/&quot;/g, '"').slice(2, -2)
     var params = {
       Data: "" + json,
-      jsonifiedData_url: "http://hatodcatalog.herokuapp.com/data/{{ dataset.id }}/download/json/",
-      csvfiedData_url: "http://hatodcatalog.herokuapp.com/data/{{ dataset.id }}/download/csv/"
+      jsonifiedData_url: "https://hatopendatacatalog.herokuapp.com/data/{{ dataset.id }}/download/json/",
+      csvfiedData_url: "https://hatopendatacatalog.herokuapp.com/data/{{ dataset.id }}/download/csv/"
     };
 
     $.ajax({
