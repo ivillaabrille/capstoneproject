@@ -11,6 +11,9 @@
          <h2 class="datasetslist-dataset-title">
           {{ dataset.DataSet_Title }}
         </h2>
+        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+        <button onclick="openModal" class="btn waves-effect waves-light red darken-1">Edit Dataset Details</button>
+        {% endif %}
       </a>
       <div class="datasetslist-dataset-files-icon">
         <div class="dataset-icon">  </a>
@@ -26,7 +29,11 @@
         </div>
         <p>
           <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
-          <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}</span>
+          <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}
+            {% if request.user.is_superuser %}
+            <button onclick="approveDataSet()" class="btn waves-effect waves-light red darken-1">Approve this Dataset</button>
+            {% endif %}
+          </span>
         </p>
         <div class="datasetslist-dataset-description">
           {{ dataset.DataSet_Description }}
@@ -34,7 +41,7 @@
           <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
           <p>This dataset currently has {{ count }} records. The records are as the format: {{ rows|slice:":1" }}</p>
 
-          {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
+          {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
           <center>
             <a href="{% url 'datasets:adddata'  dataset.id %}">
               <button class="btn waves-effect waves-light red darken-1" type="submit">Add Record</button>
@@ -124,16 +131,16 @@
                   <td>{{o}}</td>
                   {% endfor %}
                   <td>
-                  {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
+                    {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
                     <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
                       <button class="btn waves-effect waves-light red darken-1">Edit Record</button>
                     </a>
-                  {% endif %}
-                  {% if user == dataset.DataSet_Poster or user.username == 'admin' %}
+                    {% endif %}
+                    {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
                     <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
                       <button class="btn waves-effect waves-light red darken-1">Delete Record</button>
                     </a>
-                  {% endif %}
+                    {% endif %}
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -174,6 +181,30 @@
       },
     });
   });
+</script>
+
+<script>
+  function approveDataSet(){
+    var approvedatasetUrl = '/api/datasets/{{ dataset.id }}/'
+    if (confirm('Are you sure you want to approve this dataset?')){
+      var params = {
+        is_accepted: Approved
+      };
+      $.ajax({
+        type: 'PATCH',
+        url: approvedatasetUrl,
+        data: JSON.stringify(params),
+        contentType: 'application/json',
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+        },
+        success : function(json) {
+          alert('Dataset is now approved!');
+          window.location = '/data/{{ dataset.id }}';
+        },
+      });
+    }
+  }
 </script>
 
 {% endblock %}
