@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
 from .models import DataSet
 from .serializers import DataSetSerializer
@@ -31,7 +31,7 @@ url = parse.urlparse(os.environ["DATABASE_URL"])
 # Lists all datasets
 # datasets/
 class DataSetList(ModelViewSet):
-    permission_classes = (IsOwner, IsAuthenticated)
+    permission_classes = (IsOwner, IsAuthenticated, IsAdminUser)
     serializer_class = DataSetSerializer
     queryset = DataSet.objects.all()
 
