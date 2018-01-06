@@ -188,7 +188,7 @@
     var approvedatasetUrl = '/api/datasets/{{ dataset.id }}/'
     if (confirm('Are you sure you want to approve this dataset?')){
       var params = {
-        is_accepted: Approved
+        is_accepted: 'Approved'
       };
       $.ajax({
         type: 'PATCH',

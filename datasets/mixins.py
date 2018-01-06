@@ -10,7 +10,7 @@ class UserIsOwnerMixin(AccessMixin):
         dataset = get_object_or_404(DataSet, pk=self.kwargs['pk'])
         if not request.user.is_authenticated:
             return self.handle_no_permission()
-        elif request.user != bot.creator:
+        elif request.user != dataset.creator:
             messages.add_message(
                 request, 
                 messages.ERROR, 
