@@ -2,13 +2,13 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from .models import DataSet
+from .models import DataSet, Profile
 from .serializers import DataSetSerializer
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse
-from .forms import DataSetForm, ColumnForm, DataForm, SignUpForm, deleteRecordForm
+from .forms import DataSetForm, ColumnForm, DataForm, SignUpForm, deleteRecordForm, UserForm, ProfileForm
 from django.contrib.auth import login, logout, authenticate
 from django.core.urlresolvers import reverse
 from django.views import generic
@@ -18,6 +18,9 @@ import simplejson
 import psycopg2
 from django.contrib.auth.views import login
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from .mixins import UserIsOwnerMixin
 from .permissions import IsOwner
 import os
@@ -31,7 +34,7 @@ url = parse.urlparse(os.environ["DATABASE_URL"])
 # Lists all datasets
 # datasets/
 class DataSetList(ModelViewSet):
-    permission_classes = (IsOwner, IsAuthenticated, IsAdminUser)
+    permission_classes = (IsOwner, IsAuthenticated)
     serializer_class = DataSetSerializer
     queryset = DataSet.objects.all()
 
@@ -401,6 +404,47 @@ def deleteRecordView(request, pk, number):
 def AboutView(request):
     return render(request, 'datasets/about.html')
 
+def ProfileView(request, pk):
+    usertouse = User.objects.get(id=pk)
+    profile = Profile.objects.get(user=pk)
+    all_dataset = DataSet.objects.filter(DataSet_Poster=pk)
+
+    context = {"usertouse": usertouse, "profile": profile, "all_dataset": all_dataset}
+    return render(request, "datasets/profile.html", context)
+
+
+def EditProfileView(request, pk):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return HttpResponseRedirect(reverse('datasets:profile', args=[pk]))
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+
+    context = {"user_form": user_form, "profile_form": profile_form}
+    return render(request, 'datasets/editprofile.html', context)
+
+
+def ChangePasswordView(request, pk):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            return HttpResponseRedirect(reverse('datasets:profile', args=[pk]))
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'datasets/changepassword.html', {
+        'form': form
+    })
+
 
 # class DataDetailView(generic.DetailView):
 #     model = DataSet
@@ -444,7 +488,7 @@ def AboutView(request):
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-#         conn = psycopg2.connect(
+    #     conn = psycopg2.connect(
     #     database=url.path[1:],
     #     user=url.username,
     #     password=url.password,

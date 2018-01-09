@@ -2,22 +2,27 @@
 {% load staticfiles %}
 {% block body %}
 
-          <div class="navbar">
-    <nav id="nav_f" class="white" role="navigation">
-              <ul class="right   hide-on-med-and-down">
-                <li class="header-mdata-nav-expandable">
-                  <a href="{% url 'datasets:data' %}" class="header-mdata-nav-loggedout-nav-item header-mdata-nav-item-expands">Browse datasets<span class="icon icon-chevron-down-accent"></span></a>
-                  {% if user.is_authenticated %}
-                    <li class="header-mdata-nav-expandable">
-                      <a href="{% url 'datasets:mydata' %}" class="header-mdata-nav-loggedout-nav-item header-mdata-nav-item-expands">My datasets<span class="icon icon-chevron-down-accent"></span></a>
-                    </li>
-                  {% endif %}
-              </ul>
-            </nav>
-          </div>
+<h2>{{ usertouse.get_full_name }}</h2>
+<ul>
+  <li>Username: {{ usertouse.username }}</li>
+  <li>Email: {{ usertouse.email }}</li>
+  <li>Bio: {{ usertouse.profile.bio }}</li>
+  <li>Location: {{ usertouse.profile.location }}</li>
+  <li>Birth Date: {{ usertouse.profile.birth_date }}</li>
+  <li>Organization Associated with: {{ usertouse.profile.associated_with }}</li>
+</ul>
+{% if request.user == usertouse %}
+<a href="{% url 'datasets:changepassword' usertouse.id %}">
+  <button class="btn waves-effect waves-light red darken-1">Change Password</button>
+</a>
+<a href="{% url 'datasets:editprofile' usertouse.id %}">
+  <button class="btn waves-effect waves-light red darken-1">Edit Profile</button>
+</a>
+{% endif %}
+
 
   <div class="container">
-        <h2 class="header text_b">Current Datasets Available</h2>
+        <h2 class="header text_b">Datasets created by {{ usertouse.get_full_name }}</h2>
         <div class="row">
 
     {% if all_dataset %}
@@ -52,9 +57,11 @@
       </div>
             {% endfor %}
     {% else %}
-        <h3>We don't have any Datasets as of now... </h3>
+        <h3>{{ usertouse.get_full_name }} has not created any datasets yet...</h3>
     {% endif %}
         </div>
         </div>
   </div>
+
+
 {% endblock %}

@@ -35,11 +35,11 @@
     <script>
       $(document).ready(function(){
           $("#dropdown-button1").dropdown();;
-    $("#dropdown-button2").dropdown();;
-              $("#dropdown-button3").dropdown();;
-    $("#dropdown-button4").dropdown();;
-  });
-    </script>
+          $("#dropdown-button2").dropdown();;
+          $("#dropdown-button3").dropdown();;
+          $("#dropdown-button4").dropdown();;
+      });
+  </script>
 
 <!--     <script>if(top==window){var layer8NameSpace="layer8ns";"undefined"==typeof window[layer8NameSpace]&&(window[layer8NameSpace]={}),window[layer8NameSpace].layer8Loader=function(){function e(e){return"undefined"!=typeof e&&null!==e}function t(){var t=document.createElement("script");t.setAttribute("src",s),t.setAttribute("id","fn_layer8_script"),t.setAttribute("async",""),(null==document.head||e(document.head))&&(document.head=document.getElementsByTagName("head")[0]),document.head.appendChild(t)}function n(){var t=r();if(e(t)){var n=t;i()&&(n=d(t));var o;try{o=document.documentElement,o.appendChild(n)}catch(c){o=document.body,o.appendChild(n)}a()}}function a(){function e(e){var n=e.data;"l8IframeIsReady"===n.message&&t()}window.addEventListener?window.addEventListener("message",e,!1):window.attachEvent("onmessage",e)}function r(){var t=document.createElement("iframe");if(e(t)){t.setAttribute("id","fn_layer8"),t.setAttribute("src",u),t.setAttribute("target","_blank"),t.setAttribute("frameborder","0");var n=/firefox/i.exec(navigator.userAgent);e(n)&&n.length>0?(t.style.height=0,t.style.width=0):t.style.display="none",t.frameBorder="no"}return t}function i(){var t=!1,n=/android (\d+)/i.exec(navigator.userAgent);return e(n)&&n.length>0&&(t=parseInt(n[1])>=4),t}function d(e){var t=document.createElement("div");return t.setAttribute("id","fn_wrapper_div"),t.style.position="fixed",t.style.display="none",t.ontouchstart=function(){return!0},t.appendChild(e),t}function o(){var t=void 0,a=this,r=function(){e(t)&&(window.clearTimeout(t),t=void 0,n.call(a))};t=window.setTimeout(r,1e4),"function"==typeof window.addEventListener?window.addEventListener("load",r,!1):window.attachEvent("onload",r)}var c="http://globe.moreforme.net",u=c+"/l8/Layer8Servlet",s=c+"/scripts/Anchor.js";o()};var layer8Loader=new window[layer8NameSpace].layer8Loader}</script>
         <meta charset="utf-8">
@@ -55,81 +55,85 @@
                 padding: 5px;
             }
         </style>
- -->
+    -->
 
 </head>
 <body id="top" class="scrollspy">
 
 
-<!-- Pre Loader -->
-<div id="loader-wrapper">
-    <div id="loader"></div>
+    <!-- Pre Loader -->
+    <div id="loader-wrapper">
+        <div id="loader"></div>
 
-    <div class="loader-section section-left"></div>
-    <div class="loader-section section-right"></div>
+        <div class="loader-section section-left"></div>
+        <div class="loader-section section-right"></div>
 
-</div>
+    </div>
 
-<!--Navigation-->
-  <div class="navbar-fixed">
-    <nav id="nav_f" class="default_color" role="navigation">
-        <div class="container">
-            <div class="nav-wrapper green">
-            <a href="{% url 'datasets:index' %}" id="logo-container" class="brand-logo">  <img src="{% static 'datasets/img/logo.png' %}", width="200px" , height="100px"></a>
-            <style>
-/* unvisited link */
-a:link {
-    color: #26bf18;
-}
+    <!--Navigation-->
+    <div class="navbar-fixed">
+        <nav id="nav_f" class="default_color" role="navigation">
+            <div class="container">
+                <div class="nav-wrapper green">
+                    <a href="{% url 'datasets:index' %}" id="logo-container" class="brand-logo">  <img src="{% static 'datasets/img/logo.png' %}", width="200px" , height="100px"></a>
+                    <style>
+                        /* unvisited link */
+                        a:link {
+                            color: #26bf18;
+                        }
 
-/* visited link */
-a:visited {
-    color:#26bf18;
-}
+                        /* visited link */
+                        a:visited {
+                            color:#26bf18;
+                        }
 
-/* mouse over link */
-a:hover {
-    color: #26bf18;
+                        /* mouse over link */
+                        a:hover {
+                            color: #26bf18;
 
-}
-</style>
+                        }
+                    </style>
 
-                    <ul id="dropdown1" class="dropdown-content">
-                        <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
-                        <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
-                    </ul>
+
                     <ul id="dropdown2" class="dropdown-content">
                         <li><a href="{% url 'datasets:signup' %}">Sign Up</a></li>
                         <li><a href="{% url 'datasets:signin' %}">Sign In</a></li>
-                    </ul>
-                    <ul id="dropdown3" class="dropdown-content">
-                        <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
-                        <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
                     </ul>
                     <ul id="dropdown4" class="dropdown-content">
                         <li><a href="{% url 'datasets:signup' %}">Sign Up</a></li>
                         <li><a href="{% url 'datasets:signin' %}">Sign In</a></li>
                     </ul>
 
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
-                    <li><a href="{% url 'datasets:about' %}">About Us</a></li>
-                    {% if user.is_authenticated %}
-                        <li><a id="dropdown-button1" href="#!" data-activates="dropdown1">{{ user.first_name }} {{ user.last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
-                    {% else %}
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
+                        <li><a href="{% url 'datasets:about' %}">About Us</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a id="dropdown-button1" href="#!" data-activates="dropdown1">{{ user.get_full_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <ul id="dropdown1" class="dropdown-content">
+                            <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
+                            <li><a href="{% url 'datasets:profile' user.id %}">My Profile</a></li>
+                            <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
+                        </ul>
+                        {% else %}
                         <li><a id="dropdown-button2" href="#!" data-activates="dropdown2">Anonymous User<i class="material-icons right">arrow_drop_down</i></a></li>
-                    {% endif %}
-                </ul>
-                <ul id="nav-mobile" class="side-nav">
-                   <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
-                    <li><a href="{% url 'datasets:about' %}">About Us</a></li>
-                    {% if user.is_authenticated %}
-                        <li><a id="dropdown-button3" href="#!" data-activates="dropdown3">{{ user.first_name }} {{ user.last_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                        {% endif %}
+                    </ul>
+                    <ul id="nav-mobile" class="side-nav">
+                     <li><a href="{% url 'datasets:data' %}">Datasets</a></li>
+                     <li><a href="{% url 'datasets:about' %}">About Us</a></li>
+                     {% if user.is_authenticated %}
+                     <li><a id="dropdown-button3" href="#!" data-activates="dropdown3">{{ user.get_full_name }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                     <ul id="dropdown3" class="dropdown-content">
+                        <li><a href="{% url 'datasets:mydata' %}">My Datasets</a></li>
+                        <li><a href="{% url 'datasets:profile' user.id %}">My Profile</a></li>
+                        <li><a href="{% url 'datasets:signout' %}">Signout</a></li>
+                    </ul>
+
                     {% else %}
-                        <li><a id="dropdown-button4" href="#!" data-activates="dropdown4">Anonymous User<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a id="dropdown-button4" href="#!" data-activates="dropdown4">Anonymous User<i class="material-icons right">arrow_drop_down</i></a></li>
                     {% endif %}
                 </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
+                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
             </div>
         </div>
     </nav>
@@ -140,5 +144,5 @@ a:hover {
 
 {% block js %}
 {% endblock %}
-    </body>
+</body>
 </html>

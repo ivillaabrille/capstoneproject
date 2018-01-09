@@ -11,9 +11,6 @@
          <h2 class="datasetslist-dataset-title">
           {{ dataset.DataSet_Title }}
         </h2>
-        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <button onclick="openModal" class="btn waves-effect waves-light red darken-1">Edit Dataset Details</button>
-        {% endif %}
       </a>
       <div class="datasetslist-dataset-files-icon">
         <div class="dataset-icon">  </a>
@@ -30,7 +27,7 @@
         <p>
           <span class="datasetslist-dataset-publish-date">{{ dataset.DataSet_Posted }}</span>
           <span class="datasetslist-dataset-in-label">Status: {{ dataset.DataSet_Status }}
-            {% if request.user.is_superuser %}
+            {% if request.user.is_superuser and dataset.DataSet_Status == 'Not yet Approved' %}
             <button onclick="approveDataSet()" class="btn waves-effect waves-light red darken-1">Approve this Dataset</button>
             {% endif %}
           </span>
@@ -185,10 +182,10 @@
 
 <script>
   function approveDataSet(){
-    var approvedatasetUrl = '/api/datasets/{{ dataset.id }}/'
+    var approvedatasetUrl = '/api/datasets/{{ dataset.id }}/';
     if (confirm('Are you sure you want to approve this dataset?')){
       var params = {
-        is_accepted: 'Approved'
+        DataSet_Status: "Approved"
       };
       $.ajax({
         type: 'PATCH',

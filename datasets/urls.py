@@ -31,6 +31,15 @@ urlpatterns = [
         name='dataset-detail'
         ),
 
+    # /user/1/
+    url(r'^user/(?P<pk>[0-9]+)/$', views.ProfileView, name='profile'),
+
+    # /user/1/edit
+    url(r'^user/(?P<pk>[0-9]+)/edit/$', views.EditProfileView, name='editprofile'),
+
+    # /user/1/changepassword
+    url(r'^user/(?P<pk>[0-9]+)/password/$', views.ChangePasswordView, name='changepassword'),
+
     # /data/
     url(r'^data/$', views.DataView.as_view(), name='data'),
 

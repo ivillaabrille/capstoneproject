@@ -17,4 +17,4 @@ class DataSetSerializer(serializers.ModelSerializer):
         model = DataSet
         # fields = ('DataSet_Title', 'DataSet_Description')
         fields = '__all__'
-        read_only_fields = ('DataSet_Status', 'DataSet_Posted',)
+        read_only_fields = ('DataSet_Posted',)
