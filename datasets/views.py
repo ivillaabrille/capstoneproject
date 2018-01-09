@@ -32,7 +32,7 @@ url = parse.urlparse(os.environ["DATABASE_URL"])
 
 #cur = conn.cursor()
 # Lists all datasets
-# datasets/
+# 
 class DataSetList(ModelViewSet):
     permission_classes = (IsOwner, IsAuthenticated)
     serializer_class = DataSetSerializer
@@ -61,30 +61,30 @@ def signup(request):
         form = SignUpForm()
 
     context = {'form': form}
-    return render(request, 'datasets/signup.html', context)
+    return render(request, 'signup.html', context)
 
 
 def signin(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect(reverse('datasets:index'))
     else:
-        return login(request, template_name='datasets/signin.html')
+        return login(request, template_name='signin.html')
 
 
 def signout(request):
     if request.user.is_authenticated:
         logout(request)
-        return render(request, 'datasets/signout.html')
+        return render(request, 'signout.html')
     else:
         return HttpResponseRedirect(reverse('datasets:index'))
 
 
 def IndexView(request):
-    return render(request, 'datasets/index.html')
+    return render(request, 'index.html')
 
 
 class DataView(generic.ListView):
-    template_name = 'datasets/data.html'
+    template_name = 'data.html'
     context_object_name = 'all_dataset'
 
     def get_queryset(self):
@@ -137,7 +137,7 @@ def DataDetailView(request, pk):
         conn.close()
 
     context = {"dataset": dataset, "rows": rows, "colnames": colnames, "csv": csv, "json": json, "count": count, "count2": count2}
-    return render(request, "datasets/datadetail.html", context)
+    return render(request, "datadetail.html", context)
 
 
 class DownloadJsonView(APIView):
@@ -219,7 +219,7 @@ def MyDataView(request):
         pass
 
     context = {"all_dataset": all_dataset}
-    return render(request, 'datasets/datasets.html', context)
+    return render(request, 'datasets.html', context)
 
 
 def NewDataView(request):
@@ -249,7 +249,7 @@ def NewDataView(request):
         form = DataSetForm()
 
     context = {'form': form}
-    return render(request, 'datasets/newdata.html', context)
+    return render(request, 'newdata.html', context)
 
 
 def NewData2View(request, number):
@@ -278,7 +278,7 @@ def NewData2View(request, number):
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[lastDataSet.id]))
 
     context = {'forms': forms}
-    return render(request, 'datasets/newdata2.html', context)
+    return render(request, 'newdata2.html', context)
 
 
 def AddDataView(request, pk):
@@ -318,7 +318,7 @@ def AddDataView(request, pk):
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[title.id]))
 
     context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname))}
-    return render(request, 'datasets/adddata.html', context)
+    return render(request, 'adddata.html', context)
 
 
 def editRecordView(request, pk, number):
@@ -360,7 +360,7 @@ def editRecordView(request, pk, number):
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[title.id]))
 
     context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "rows": rows}
-    return render(request, 'datasets/editrecord.html', context)
+    return render(request, 'editrecord.html', context)
 
 
 def deleteRecordView(request, pk, number):
@@ -398,11 +398,14 @@ def deleteRecordView(request, pk, number):
         form = deleteRecordForm(data=request.POST)
 
     context = {'form': form, 'rows': rows}
-    return render(request, 'datasets/deleterecord.html', context)
+    return render(request, 'deleterecord.html', context)
 
 
 def AboutView(request):
-    return render(request, 'datasets/about.html')
+    return render(request, 'about.html')
+
+def WhatWeDoView(request):
+    return render(request, 'whatwedo.html')
 
 def ProfileView(request, pk):
     usertouse = User.objects.get(id=pk)
@@ -410,7 +413,7 @@ def ProfileView(request, pk):
     all_dataset = DataSet.objects.filter(DataSet_Poster=pk)
 
     context = {"usertouse": usertouse, "profile": profile, "all_dataset": all_dataset}
-    return render(request, "datasets/profile.html", context)
+    return render(request, "profile.html", context)
 
 
 def EditProfileView(request, pk):
@@ -429,8 +432,21 @@ def EditProfileView(request, pk):
         profile_form = ProfileForm(instance=request.user.profile)
 
     context = {"user_form": user_form, "profile_form": profile_form}
-    return render(request, 'datasets/editprofile.html', context)
+    return render(request, 'editprofile.html', context)
 
+def EditDataSetView(request, pk):
+    dataset = get_object_or_404(DataSet, id=pk)
+    
+    if request.method == 'POST':
+        form = DataSetForm(instance=dataset, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('datasets:data', args=[pk]))
+    else:
+        form = DataSetForm(instance=dataset)
+
+    context = {"form": form, "dataset": dataset}
+    return render(request, 'editdataset.html', context)
 
 def ChangePasswordView(request, pk):
     if request.method == 'POST':
@@ -441,18 +457,18 @@ def ChangePasswordView(request, pk):
             return HttpResponseRedirect(reverse('datasets:profile', args=[pk]))
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'datasets/changepassword.html', {
+    return render(request, 'changepassword.html', {
         'form': form
     })
 
 
 # class DataDetailView(generic.DetailView):
 #     model = DataSet
-#     template_name = 'datasets/datadetail.html'
+#     template_name = 'datadetail.html'
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-#         conn = psycopg2.connect(
+    #     conn = psycopg2.connect(
     #     database=url.path[1:],
     #     user=url.username,
     #     password=url.password,
@@ -484,11 +500,11 @@ def ChangePasswordView(request, pk):
 
 # class GetCsvView(generic.DetailView):
 #     model = DataSet
-#     template_name = 'datasets/getcsv.html'
+#     template_name = 'getcsv.html'
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
-    #     conn = psycopg2.connect(
+#         conn = psycopg2.connect(
     #     database=url.path[1:],
     #     user=url.username,
     #     password=url.password,
@@ -510,7 +526,7 @@ def ChangePasswordView(request, pk):
 
 # class GetJsonView(generic.DetailView):
 #     model = DataSet
-#     template_name = 'datasets/getjson.html'
+#     template_name = 'getjson.html'
 #     query_pk_and_slug = True
 #
 #     def get_context_data(self, **kwargs):
@@ -532,7 +548,7 @@ def ChangePasswordView(request, pk):
 #         return context
 
 # class MyDataView(generic.ListView):
-#     template_name = 'datasets/datasets.html'
+#     template_name = 'datasets.html'
 #     context_object_name = 'all_dataset'
 #
 #     def get_queryset(self):

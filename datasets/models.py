@@ -31,7 +31,7 @@ class Profile(models.Model):
     associated_with = models.TextField(blank=True)
 
     def __str__(self):
-        return self.user
+        return self.bio
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

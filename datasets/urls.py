@@ -46,6 +46,9 @@ urlpatterns = [
     # /data/1/
     url(r'^data/(?P<pk>[0-9]+)/$', views.DataDetailView, name='datadetail'),
 
+    # /data/1/edit
+    url(r'^data/(?P<pk>[0-9]+)/edit/$', views.EditDataSetView, name='editdataset'),
+
     # /data/1/download/json
     url(r'^data/(?P<pk>[0-9]+)/download/json/$', views.DownloadJsonView.as_view(), name='downloadJson'),
 
@@ -71,7 +74,10 @@ urlpatterns = [
     url(r'^newdata2/(?P<number>[0-9]+)/$', views.NewData2View, name='newdata2'),
 
     # /about/
-    url(r'^about/$', views.AboutView, name='about'),
+    url(r'^team/$', views.AboutView, name='about'),
+
+    # /whatwedo/
+    url(r'^whatwedo/$', views.WhatWeDoView, name='whatwedo'),
 
 
     # # /data/1/getcsv/
