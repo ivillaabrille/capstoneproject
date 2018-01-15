@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	
-	<title>{% block title %} HALANG: Datasets Portal{% endblock %}</title> {% load staticfiles %}
+	<title>{% block title %} TANOM: Datasets Portal{% endblock %}</title> {% load staticfiles %}
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Template by FREEHTML5.CO" />
@@ -26,6 +26,9 @@
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/data.css' %}">
 	<link rel="stylesheet" href="{% static 'css/table.css' %}">
+	<!-- datatables -->
+	<link href="//datatables.net/download/build/nightly/jquery.dataTables.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css">
 	<!-- Modernizr JS -->
 	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
 	<!-- FOR IE9 below -->
@@ -117,7 +120,7 @@ button {
 					<div class="container">
 						<div class="nav-header">
 							<a href="#" class="js-fh5co-nav-toggle fh5co-nav-toggle"><i></i></a>
-							<h1 id="fh5co-logo"><a href="{% url 'datasets:index' %}">HA<span>LANG</span></a></h1>
+							<h1 id="fh5co-logo"><a href="{% url 'datasets:index' %}">TAN<span>OM</span></a></h1>
 							<!-- START #fh5co-menu-wrap -->
 							<nav id="fh5co-menu-wrap" role="navigation">
 								<ul class="sf-menu" id="fh5co-primary-menu">
@@ -176,8 +179,7 @@ button {
 	</div>
 </footer>
 
-
-	<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<!-- jQuery Easing -->
 	<script type="text/javascript" src="{% static 'js/jquery.easing.1.3.js' %}"></script>
 	<!-- Bootstrap -->
@@ -192,8 +194,16 @@ button {
 
 	<!-- Main JS (Do not remove) -->
 	<script type="text/javascript" src="{% static 'js/main.js' %}"></script>
-	
 
+	<!-- datatables -->
+	<script src="//datatables.net/download/build/nightly/jquery.dataTables.js"></script>
+	<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+	<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+	<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+	<script src="//cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
 	{% block js %}
 	{% endblock %}
 

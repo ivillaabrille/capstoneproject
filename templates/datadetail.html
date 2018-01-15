@@ -1,24 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-}{% block body %}
-<!-- STYLE OF table --><style>
-* {
-  box-sizing: border-box;
-}
-
-#myInput {
-  background-position: 10px 12px;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
-}
-
-
-</style>
-
+{% block body %}
 <!-- start of banner-->
 <div class="fh5co-hero fh5co-hero-2">
  <div class="fh5co-overlay"></div>
@@ -105,6 +87,7 @@
 {% endif %}
 
 <center><!-- TABLES-->
+<h3>These buttons are for the dataset in its totality.</h3>
   <a href="{% url 'datasets:downloadCsv' dataset.id %}" download>
     <button class="btn btn-primary">Get CSV</button>
   </a>
@@ -117,17 +100,11 @@
     <button class="btn btn-primary">Get JSON</button>
   </a>
 </center>
-<style>
-  table,  th {
-
-   border-collapse: separate;
-   border-spacing: 15px;
- }
-</style>
 
 <br><br><br>
+<center><h3>The following are the export buttons for your filtered data wanted.</h3></center>
 <div class="container">
-  <center><table style="width:80%">
+  <center><table id="example" class="display" cellspacing="0" width="100%">
     <thead>
       <tr>
         {% for i in colnames %}
@@ -138,15 +115,24 @@
         {% endif %}
       </tr>
     </thead>
-
+    <tfoot>
+      <tr>
+        {% for i in colnames %}
+        <th><center>{{i}}</center></th>
+        {% endfor %}
+        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+        <th><center>Actions</center></th>
+        {% endif %}
+      </tr>
+    </tfoot>
     <tbody>
       {% for i in rows %}
       <tr>
         {% for o in i %}
         <td><center>{{o}}</center></td>
         {% endfor %}
-        <td>
-          {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+        <td> 
           <center>
             <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
               <button class="btn btn-primary">Edit Record</button>
@@ -157,13 +143,14 @@
               <button class="btn btn-primary">Delete Record</button>
             </a>
           </center>
-          {% endif %}
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </center>
-  <br>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</center>
+<br>
 </div>
 
 
@@ -172,6 +159,67 @@
 {% endblock %}
 
 {% block js %}
+<script>
+  $(document).ready(function() {
+    var table = $('#example').DataTable( {
+      initComplete: function () {
+        this.api().columns().every( function () {
+          var column = this;
+          var select = $('<select><option value=""></option></select>')
+          .appendTo( $(column.footer()).empty() )
+          .on( 'change', function () {
+            var val = $.fn.dataTable.util.escapeRegex(
+              $(this).val()
+              );
+
+            column
+            .search( val ? '^'+val+'$' : '', true, false )
+            .draw();
+          } );
+
+          column.data().unique().sort().each( function ( d, j ) {
+            var cleaned = d.replace("<center>", "")
+            var cleaned2 = cleaned.replace("</center>","")
+            select.append( '<option value="'+cleaned2+'">'+cleaned2+'</option>' )
+          } );
+        } );
+      }
+    } );
+    new $.fn.dataTable.Buttons( table, {
+      buttons: [
+      {
+        extend: 'csvHtml5',
+        title: '{{ dataset.DataSet_Title }}'
+      },
+      {
+        extend: 'excelHtml5',
+        title: '{{ dataset.DataSet_Title }}'
+      },
+      {
+        extend: 'pdfHtml5',
+        title: '{{ dataset.DataSet_Title }}'
+      },
+      {
+        text: 'JSON',
+        action: function ( e, dt, button, config ) {
+          var data = dt.buttons.exportData();
+
+          $.fn.dataTable.fileSave(
+            new Blob( [ JSON.stringify( data ) ] ),
+            '{{ dataset.DataSet_Title }}.json'
+            );
+        }
+      }
+      ]
+    } );
+
+    table.buttons( 0, null ).container().prependTo(
+      table.table().container()
+      );
+
+  } );
+</script>
+
 <script>
   $(document).ready(function(){
     var DataSetUrl = '/api/datasets/{{ dataset.id }}/';
