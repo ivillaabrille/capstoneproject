@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% block body %}
 <!-- start of banner-->
+
 <div class="fh5co-hero fh5co-hero-2">
  <div class="fh5co-overlay"></div>
  <div class="fh5co-cover fh5co-cover_2 text-center" data-stellar-background-ratio="0.5" style="background-image: url({% static 'images/sudy.jpg' %});">
@@ -87,7 +88,7 @@
 {% endif %}
 
 <center><!-- TABLES-->
-<h3>These buttons are for the dataset in its totality.</h3>
+  <h3>These buttons are for the dataset in its totality.</h3>
   <a href="{% url 'datasets:downloadCsv' dataset.id %}" download>
     <button class="btn btn-primary">Get CSV</button>
   </a>
@@ -108,20 +109,20 @@
     <thead>
       <tr>
         {% for i in colnames %}
-        <th><center>{{i}}</center></th>
+        <th>{{i}}</th>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <th><center>Actions</center></th>
+        <th>Actions</th>
         {% endif %}
       </tr>
     </thead>
     <tfoot>
       <tr>
         {% for i in colnames %}
-        <th><center>{{i}}</center></th>
+        <th>{{i}}</th>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <th><center>Actions</center></th>
+        <th>Actions</th>
         {% endif %}
       </tr>
     </tfoot>
@@ -129,20 +130,16 @@
       {% for i in rows %}
       <tr>
         {% for o in i %}
-        <td><center>{{o}}</center></td>
+        <td>{{o}}</td>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
         <td> 
-          <center>
             <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
               <button class="btn btn-primary">Edit Record</button>
             </a>
-          </center>
-          <center>
             <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
               <button class="btn btn-primary">Delete Record</button>
             </a>
-          </center>
         </td>
         {% endif %}
       </tr>
@@ -189,18 +186,21 @@
       buttons: [
       {
         extend: 'csvHtml5',
+        text: 'Export as CSV',
         title: '{{ dataset.DataSet_Title }}'
       },
       {
         extend: 'excelHtml5',
+        text: 'Export as XLSX (Excel)',
         title: '{{ dataset.DataSet_Title }}'
       },
       {
         extend: 'pdfHtml5',
+        text: 'Export as PDF',
         title: '{{ dataset.DataSet_Title }}'
       },
       {
-        text: 'JSON',
+        text: 'Export as JSON',
         action: function ( e, dt, button, config ) {
           var data = dt.buttons.exportData();
 
