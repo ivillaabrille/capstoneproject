@@ -53,8 +53,8 @@
   </tr>
   {% for dataset in datasets %}
   <tr>
-    <td><a href="{% url 'datasets:profile' dataset.DataSet_Poster.id %}">Contributor: {{dataset.DataSet_Poster.get_full_name}}</a></td>
     <td><a href="{% url 'datasets:datadetail' dataset.id %}">Title: {{dataset.DataSet_Title}}</a></td>
+    <td><a href="{% url 'datasets:profile' dataset.DataSet_Poster.id %}">Contributor: {{dataset.DataSet_Poster.get_full_name}}</a></td>
     <td>Posted on: {{dataset.DataSet_Posted}}</td>
     <td>Description: {{ dataset.DataSet_Description|slice:":143" }}...</td>
     <td><a href="#" onclick="approveDataSet({{ dataset.id }})"><i class="material-icons">&#xe86c;</i>Approve</a></td>
