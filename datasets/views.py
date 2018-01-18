@@ -26,8 +26,8 @@ from .permissions import IsOwner
 import os
 from urllib import parse
 
-parse.uses_netloc.append("postgres")
-url = parse.urlparse(os.environ["DATABASE_URL"])
+# parse.uses_netloc.append("postgres")
+# url = parse.urlparse(os.environ["DATABASE_URL"])
 
 
 #cur = conn.cursor()
@@ -46,6 +46,16 @@ class DataSetList(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save()
 
+    def perform_destroy(self, instance):
+        dataset = instance
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+        cur = conn.cursor()
+        cur.execute("""DROP TABLE "{}";""".format(dataset.id))
+        conn.commit();
+        conn.close();
+        cur.close();
+        instance.delete()
+        
 
 def signup(request):
     if request.method == 'POST':
@@ -80,26 +90,28 @@ def signout(request):
 
 
 def IndexView(request):
-    return render(request, 'index.html')
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+
+    context = {"datasets": datasets}
+    return render(request, "index.html", context)
 
 
 class DataView(generic.ListView):
     template_name = 'data.html'
     context_object_name = 'all_dataset'
 
+    def get_context_data(self,**kwargs):
+        context = super(DataView,self).get_context_data(**kwargs)
+        context['datasets'] = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+        return context
+
     def get_queryset(self):
-        combined_queryset = DataSet.objects.filter(DataSet_Status='Approved') | DataSet.objects.filter(DataSet_Status='Not yet Approved')
+        combined_queryset = DataSet.objects.filter(DataSet_Status='Approved')
         return combined_queryset.order_by('-DataSet_Posted', '-id')
 
 
 def DataDetailView(request, pk):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     try:
         idvalues = []
         dataset = DataSet.objects.get(pk=pk)
@@ -136,20 +148,16 @@ def DataDetailView(request, pk):
     finally:
         conn.close()
 
-    context = {"dataset": dataset, "rows": rows, "colnames": colnames, "csv": csv, "json": json, "count": count, "count2": count2}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+
+    context = {"dataset": dataset, "rows": rows, "colnames": colnames, "csv": csv, "json": json, "count": count, "count2": count2, "datasets": datasets}
     return render(request, "datadetail.html", context)
 
 
 class DownloadJsonView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -179,13 +187,7 @@ class DownloadJsonView(APIView):
 class DownloadCsvView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -212,16 +214,6 @@ class DownloadCsvView(APIView):
         return response
 
 
-def MyDataView(request):
-    if request.user.is_authenticated:
-        all_dataset = DataSet.objects.filter(DataSet_Poster=request.user.id)
-    else:
-        pass
-
-    context = {"all_dataset": all_dataset}
-    return render(request, 'datasets.html', context)
-
-
 def NewDataView(request):
     if request.method == 'POST':
         form = DataSetForm(data=request.POST)
@@ -230,13 +222,7 @@ def NewDataView(request):
             dataset.DataSet_Poster = request.user
             dataset.save()
             title = DataSet.objects.last()
-            conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
             cur = conn.cursor()
             cur.execute("""CREATE TABLE "%s"(id serial PRIMARY KEY);""" % str(title.id))
             conn.commit();
@@ -248,7 +234,8 @@ def NewDataView(request):
     else:
         form = DataSetForm()
 
-    context = {'form': form}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'form': form, 'datasets': datasets}
     return render(request, 'newdata.html', context)
 
 
@@ -261,13 +248,7 @@ def NewData2View(request, number):
             if form.is_valid():
                 columnname = request.POST.getlist('cname').pop(index)
                 columntype = "VARCHAR"
-                conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+                conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
                 cur = conn.cursor()
                 cur.execute("""ALTER TABLE "{}" ADD COLUMN "{}" {};""".format(lastDataSet.id, columnname, columntype))
                 conn.commit();
@@ -277,18 +258,13 @@ def NewData2View(request, number):
 
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[lastDataSet.id]))
 
-    context = {'forms': forms}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'forms': forms, 'datasets': datasets}
     return render(request, 'newdata2.html', context)
 
 
 def AddDataView(request, pk):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" ORDER BY id;""".format(title.id))
@@ -317,18 +293,13 @@ def AddDataView(request, pk):
 
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[title.id]))
 
-    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname))}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "datasets": datasets}
     return render(request, 'adddata.html', context)
 
 
 def editRecordView(request, pk, number):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -359,18 +330,13 @@ def editRecordView(request, pk, number):
 
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[title.id]))
 
-    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "rows": rows}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "rows": rows, "datasets": datasets}
     return render(request, 'editrecord.html', context)
 
 
 def deleteRecordView(request, pk, number):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -379,13 +345,7 @@ def deleteRecordView(request, pk, number):
     if request.method == 'POST':
         form = deleteRecordForm(data=request.POST)
         if form.is_valid():
-            conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
             cur = conn.cursor()
             title = DataSet.objects.get(id=pk)
             cur.execute("""DELETE FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -397,22 +357,28 @@ def deleteRecordView(request, pk, number):
     else:
         form = deleteRecordForm(data=request.POST)
 
-    context = {'form': form, 'rows': rows}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'form': form, 'rows': rows, 'datasets': datasets}
     return render(request, 'deleterecord.html', context)
 
 
 def AboutView(request):
-    return render(request, 'about.html')
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'datasets': datasets}
+    return render(request, 'about.html', context)
 
 def WhatWeDoView(request):
-    return render(request, 'whatwedo.html')
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'datasets': datasets}
+    return render(request, 'whatwedo.html', context)
 
 def ProfileView(request, pk):
     usertouse = User.objects.get(id=pk)
     profile = Profile.objects.get(user=pk)
     all_dataset = DataSet.objects.filter(DataSet_Poster=pk)
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
 
-    context = {"usertouse": usertouse, "profile": profile, "all_dataset": all_dataset}
+    context = {"usertouse": usertouse, "profile": profile, "all_dataset": all_dataset, 'datasets': datasets}
     return render(request, "profile.html", context)
 
 
@@ -431,7 +397,8 @@ def EditProfileView(request, pk):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
 
-    context = {"user_form": user_form, "profile_form": profile_form}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {"user_form": user_form, "profile_form": profile_form, 'datasets': datasets}
     return render(request, 'editprofile.html', context)
 
 def EditDataSetView(request, pk):
@@ -445,7 +412,8 @@ def EditDataSetView(request, pk):
     else:
         form = DataSetForm(instance=dataset)
 
-    context = {"form": form, "dataset": dataset}
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {"form": form, "dataset": dataset, 'datasets': datasets}
     return render(request, 'editdataset.html', context)
 
 def ChangePasswordView(request, pk):
@@ -457,10 +425,17 @@ def ChangePasswordView(request, pk):
             return HttpResponseRedirect(reverse('datasets:profile', args=[pk]))
     else:
         form = PasswordChangeForm(request.user)
-    return render(request, 'changepassword.html', {
-        'form': form
-    })
 
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
+    context = {'form': form, 'datasets': datasets}
+    return render(request, 'changepassword.html', context)
+
+
+def ReviewView(request):
+    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved').order_by('-DataSet_Posted', '-id')
+
+    context = {"datasets": datasets}
+    return render(request, "review.html", context)
 
 # class DataDetailView(generic.DetailView):
 #     model = DataSet

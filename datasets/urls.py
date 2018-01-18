@@ -64,9 +64,6 @@ urlpatterns = [
     # /data/1/deleterecord/1
     url(r'^data/(?P<pk>[0-9]+)/deleterecord/(?P<number>[0-9]+)/$', views.deleteRecordView, name='deleterecord'),
 
-    # /mydata/
-    url(r'^mydata/$', views.MyDataView, name='mydata'),
-
     # /newdata/
     url(r'^newdata/$', views.NewDataView, name='newdata'),
 
@@ -78,6 +75,9 @@ urlpatterns = [
 
     # /whatwedo/
     url(r'^whatwedo/$', views.WhatWeDoView, name='whatwedo'),
+
+    # /review/
+    url(r'^review/$', views.ReviewView, name='review'),
 
 
     # # /data/1/getcsv/

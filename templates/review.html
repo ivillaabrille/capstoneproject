@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body %}
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 80%;
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+</style>
+
+
+<div class="fh5co-hero fh5co-hero-2">
+ <div class="fh5co-overlay"></div>
+ <div class="fh5co-cover fh5co-cover_2 text-center" data-stellar-background-ratio="0.5" style="background-image: url({% static 'images/sudy.jpg' %});">
+  <div class="desc animate-box">
+   <h2>Review Submitted Datasets</h2>
+
+ </div>
+</div>
+</div>
+
+
+<!-- end of banner-->
+<!-- end:header-top -->
+<div id="fh5co-work-section">
+ <div class="container">
+  <div class="row">
+   <div class="col-md-8 col-md-offset-2 text-center heading-section animate-box">
+    <h3>Browse Datasets</h3>
+  </div>
+</div>
+</div>
+
+</head>
+
+
+
+<center><table id="tables" width="80%">
+  <tr> 
+  	<th colspan="4">Datasets</th>
+    <th colspan="3">Remarks</th>
+  </tr>
+  {% for dataset in datasets %}
+  <tr>
+    <td><a href="{% url 'datasets:profile' dataset.DataSet_Poster.id %}">Contributor: {{dataset.DataSet_Poster.get_full_name}}</a></td>
+    <td><a href="{% url 'datasets:datadetail' dataset.id %}">Title: {{dataset.DataSet_Title}}</a></td>
+    <td>Posted on: {{dataset.DataSet_Posted}}</td>
+    <td>Description: {{ dataset.DataSet_Description|slice:":143" }}...</td>
+    <td><a href="#" onclick="approveDataSet({{ dataset.id }})"><i class="material-icons">&#xe86c;</i>Approve</a></td>
+    <td><a href="#" onclick="rejectDataSet({{ dataset.id }})"><i class="material-icons">&#xe14c;</i>Reject</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<center>
+  <br>
+
+  {% endblock %}
+
+  {% block js %}
+  <script>
+    function approveDataSet(dataset_id){
+      var approvedatasetUrl = '/api/datasets/'+ dataset_id +'/';
+      if (confirm('Are you sure you want to approve this dataset?')){
+        var params = {
+          DataSet_Status: "Approved"
+        };
+        $.ajax({
+          type: 'PATCH',
+          url: approvedatasetUrl,
+          data: JSON.stringify(params),
+          contentType: 'application/json',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+          },
+          success : function(json) {
+            alert('Dataset is now approved!');
+            window.location = '/review/';
+          },
+        });
+      }
+    }
+  </script>
+
+  <script>
+    function rejectDataSet(dataset_id){
+      var deletedatasetUrl = '/api/datasets/' + dataset_id + '/';
+      if (confirm('Are you sure you want to reject this dataset?')){
+        $.ajax({
+          type: 'DELETE',
+          url: deletedatasetUrl,
+          contentType: 'application/json',
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-CSRFToken", '{{ csrf_token }}');
+          },
+          success : function(json) {
+            alert('Dataset was successfully Rejected!');
+            window.location = '/review/';
+          },
+          error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": ");
+          }
+        });
+      }
+    }
+  </script>
+
+  {% endblock %}
