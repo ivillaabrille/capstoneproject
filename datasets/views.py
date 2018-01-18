@@ -26,8 +26,8 @@ from .permissions import IsOwner
 import os
 from urllib import parse
 
-# parse.uses_netloc.append("postgres")
-# url = parse.urlparse(os.environ["DATABASE_URL"])
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["DATABASE_URL"])
 
 
 #cur = conn.cursor()
@@ -48,7 +48,14 @@ class DataSetList(ModelViewSet):
 
     def perform_destroy(self, instance):
         dataset = instance
-        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+        conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
         cur = conn.cursor()
         cur.execute("""DROP TABLE "{}";""".format(dataset.id))
         conn.commit();
@@ -111,7 +118,14 @@ class DataView(generic.ListView):
 
 
 def DataDetailView(request, pk):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
     try:
         idvalues = []
         dataset = DataSet.objects.get(pk=pk)
@@ -157,7 +171,14 @@ def DataDetailView(request, pk):
 class DownloadJsonView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+        conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -187,7 +208,14 @@ class DownloadJsonView(APIView):
 class DownloadCsvView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+        conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -222,7 +250,14 @@ def NewDataView(request):
             dataset.DataSet_Poster = request.user
             dataset.save()
             title = DataSet.objects.last()
-            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+            conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
             cur = conn.cursor()
             cur.execute("""CREATE TABLE "%s"(id serial PRIMARY KEY);""" % str(title.id))
             conn.commit();
@@ -248,7 +283,14 @@ def NewData2View(request, number):
             if form.is_valid():
                 columnname = request.POST.getlist('cname').pop(index)
                 columntype = "VARCHAR"
-                conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+                conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
                 cur = conn.cursor()
                 cur.execute("""ALTER TABLE "{}" ADD COLUMN "{}" {};""".format(lastDataSet.id, columnname, columntype))
                 conn.commit();
@@ -264,7 +306,14 @@ def NewData2View(request, number):
 
 
 def AddDataView(request, pk):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" ORDER BY id;""".format(title.id))
@@ -299,7 +348,14 @@ def AddDataView(request, pk):
 
 
 def editRecordView(request, pk, number):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -336,7 +392,14 @@ def editRecordView(request, pk, number):
 
 
 def deleteRecordView(request, pk, number):
-    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -345,7 +408,14 @@ def deleteRecordView(request, pk, number):
     if request.method == 'POST':
         form = deleteRecordForm(data=request.POST)
         if form.is_valid():
-            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
+            conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
             cur = conn.cursor()
             title = DataSet.objects.get(id=pk)
             cur.execute("""DELETE FROM "{}" WHERE id={} ;""".format(title.id, number))
