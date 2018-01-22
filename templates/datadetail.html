@@ -10,6 +10,11 @@
   width: 1100px;
   margin: 0 auto;
 }
+table {
+  overflow: auto;
+  overflow-x: auto;
+  overflow-y: auto;
+}
 </style>
 
 <div class="fh5co-hero fh5co-hero-2">
@@ -113,48 +118,48 @@
 
 <br><br><br>
 <center><h3>The following are the export buttons for your filtered data wanted.</h3></center>
-  <table id="example" class="display" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        {% for i in colname %}
-        <th>{{i}}</th>
-        {% endfor %}
-        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <th>Actions</th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        {% for i in colname %}
-        <th>{{i}}</th>
-        {% endfor %}
-        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <th>Actions</th>
-        {% endif %}
-      </tr>
-    </tfoot>
-    <tbody>
-      {% for i in database %}
-      <tr>
-        {% for o in i %}
-        <td>{{o}}</td>
-        {% endfor %}
-        {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
-        <td> 
-          <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
-            <button class="btn btn-primary">Edit Record</button>
-          </a>
-          <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
-            <button class="btn btn-primary">Delete Record</button>
-          </a>
-        </td>
-        {% endif %}
-      </tr>
+<table id="example" class="display" cellspacing="0" width="100%">
+  <thead>
+    <tr>
+      {% for i in colname %}
+      <th>{{i}}</th>
       {% endfor %}
-    </tbody>
-  </table>
-  <br>
+      {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+      <th>Actions</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      {% for i in colname %}
+      <th>{{i}}</th>
+      {% endfor %}
+      {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+      <th>Actions</th>
+      {% endif %}
+    </tr>
+  </tfoot>
+  <tbody>
+    {% for i in database %}
+    <tr>
+      {% for o in i %}
+      <td>{{o}}</td>
+      {% endfor %}
+      {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
+      <td> 
+        <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
+          <button class="btn btn-primary">Edit Record</button>
+        </a>
+        <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
+          <button class="btn btn-primary">Delete Record</button>
+        </a>
+      </td>
+      {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
 
 
 
