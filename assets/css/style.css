@@ -25,13 +25,13 @@ body.fh5co-offcanvas {
 }
 
 a {
-  color: #FCC72C;
+  color: blue;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s;
+  border-bottom: solid 1px blue;
 }
 a:hover {
-  text-decoration: none !important;
   color: #FCC72C !important;
 }
 
