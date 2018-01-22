@@ -12,7 +12,7 @@
 </div>
 <br>
 <center><h2>Sign In Form</h2></center>
-<form action="{% url 'datasets:signin' %}" method="post" style="border:1px solid #ccc" role="form">
+<center><form action="{% url 'datasets:signin' %}" method="post" style="border:1px solid #ccc" role="form">
   {% csrf_token %}
   <div class="container">
    <label><b></b></label>
@@ -25,5 +25,6 @@
     <center><button type="submit" class="btn waves-effect waves-light red darken-1">Sign In</button>
     </div>
   </div>
+  </center>
 
   {% endblock %}

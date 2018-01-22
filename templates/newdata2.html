@@ -12,7 +12,7 @@
 </div>
 <br>
 <center><h2>New Dataset Form Part 2</h2></center>
-<form action="." method="post" style="border:1px solid #ccc" role="form">
+<center><form action="." method="post" style="border:1px solid #ccc" role="form">
   {% csrf_token %}
   <div class="container">
     {% for form in forms %}
@@ -22,5 +22,5 @@
     <div class="clearfix">
       <center><button type="submit" class="btn waves-effect waves-light red darken-1">Submit</button>
       </div>
-    </div>
+    </div></center>
     {% endblock %}

@@ -13,7 +13,7 @@
 </div>
 <br>
 <center><h2>Edit Dataset Form</h2></center>
-<form action="{% url 'datasets:editdataset' dataset.id %}" method="post" id="SignUpForm" role="form" style="border:1px solid #ccc">
+<center><form action="{% url 'datasets:editdataset' dataset.id %}" method="post" id="SignUpForm" role="form" style="border:1px solid #ccc">
   {% csrf_token %}
   <div class="container">
     <h2>Dataset Title</h2>
@@ -26,5 +26,5 @@
       <center><button type="submit" class="btn waves-effect waves-light red darken-1">Save Changes</button>
       </div>
     </div>
-  </form>
+  </form></center>
   {% endblock %}

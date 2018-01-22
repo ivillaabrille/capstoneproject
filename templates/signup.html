@@ -13,7 +13,7 @@
 </div>
 <br>
 <center><h2>Sign Up Form</h2></center>
-<form action="{% url 'datasets:signup' %}" method="post" id="SignUpForm" role="form" style="border:1px solid #ccc">
+<center><form action="{% url 'datasets:signup' %}" method="post" id="SignUpForm" role="form" style="border:1px solid #ccc">
   {% csrf_token %}
   <div class="container">
 
@@ -36,4 +36,5 @@
       </div>
     </div>
   </form>
+  </center>
   {% endblock %}
