@@ -155,7 +155,7 @@ def DataDetailView(request, pk):
         colname.remove('id')
         counter = len(colname)
         for x in colname:
-            cnames = cnames + '' + x + ', '
+            cnames = cnames + '"' + x + '", '
         cnames = cnames[:-2]
 
         cur.execute("""SELECT {} FROM "{}" ORDER BY id;""".format(cnames, title.id))
@@ -383,7 +383,7 @@ def editRecordView(request, pk, number):
     colname = [desc[0] for desc in cur.description]
     colname.remove('id')
     for x in colname:
-        cnames = cnames + '' + x + ', '
+        cnames = cnames + '"' + x + '", '
     cnames = cnames[:-2]
     cur.execute("""SELECT {} FROM "{}" WHERE id={} ;""".format(cnames, title.id, number))
     rows = cur.fetchall()
