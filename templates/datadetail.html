@@ -2,6 +2,11 @@
 {% load staticfiles %}
 {% block body %}
 <!-- start of banner-->
+<style>
+tfoot {
+     display: table-header-group;
+}
+</style>
 
 <div class="fh5co-hero fh5co-hero-2">
  <div class="fh5co-overlay"></div>
@@ -65,8 +70,8 @@
 
             <div class="datasetslist-dataset-description">
               <p>{{ dataset.DataSet_Description }}</p>
-              <p>This dataset has {{ count2 }} columns, namely the following: {{ colnames }}</p>
-              <p>This dataset currently has {{ count }} records. The records are as the format: {{ rows|slice:":1" }}</p>
+              <p>This dataset has {{ counter }} columns, namely the following: {{ cnames }}</p>
+              <p>This dataset currently has {{ count }} records. The records are as the format: {{ database|slice:":1" }}</p>
             </div>
           </div>
           <!-- End Of 1st Dataset-->
@@ -105,10 +110,10 @@
 <br><br><br>
 <center><h3>The following are the export buttons for your filtered data wanted.</h3></center>
 <div class="container">
-  <center><table id="example" class="display" cellspacing="0" width="100%">
+  <table id="example" class="display" cellspacing="0" width="100%">
     <thead>
       <tr>
-        {% for i in colnames %}
+        {% for i in colname %}
         <th>{{i}}</th>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
@@ -118,7 +123,7 @@
     </thead>
     <tfoot>
       <tr>
-        {% for i in colnames %}
+        {% for i in colname %}
         <th>{{i}}</th>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
@@ -127,27 +132,26 @@
       </tr>
     </tfoot>
     <tbody>
-      {% for i in rows %}
+      {% for i in database %}
       <tr>
         {% for o in i %}
         <td>{{o}}</td>
         {% endfor %}
         {% if user == dataset.DataSet_Poster or request.user.is_superuser %}
         <td> 
-            <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
-              <button class="btn btn-primary">Edit Record</button>
-            </a>
-            <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
-              <button class="btn btn-primary">Delete Record</button>
-            </a>
+          <a href="{% url 'datasets:editrecord'  dataset.id forloop.counter %}">
+            <button class="btn btn-primary">Edit Record</button>
+          </a>
+          <a href="{% url 'datasets:deleterecord'  dataset.id forloop.counter %}">
+            <button class="btn btn-primary">Delete Record</button>
+          </a>
         </td>
         {% endif %}
       </tr>
       {% endfor %}
     </tbody>
   </table>
-</center>
-<br>
+  <br>
 </div>
 
 
@@ -162,7 +166,7 @@
       initComplete: function () {
         this.api().columns().every( function () {
           var column = this;
-          var select = $('<select><option value=""></option></select>')
+          var select = $('<select><option value="">All</option></select>')
           .appendTo( $(column.footer()).empty() )
           .on( 'change', function () {
             var val = $.fn.dataTable.util.escapeRegex(

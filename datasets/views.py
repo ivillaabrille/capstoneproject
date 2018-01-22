@@ -26,9 +26,9 @@ from .permissions import IsOwner
 import os
 from urllib import parse
 
-parse.uses_netloc.append("postgres")
-url = parse.urlparse(os.environ["DATABASE_URL"])
-
+# parse.uses_netloc.append("postgres")
+# url = parse.urlparse(os.environ["DATABASE_URL"])
+# conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
 #cur = conn.cursor()
 # Lists all datasets
@@ -48,13 +48,7 @@ class DataSetList(ModelViewSet):
 
     def perform_destroy(self, instance):
         dataset = instance
-        conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
         cur = conn.cursor()
         cur.execute("""DROP TABLE "{}";""".format(dataset.id))
@@ -118,13 +112,7 @@ class DataView(generic.ListView):
 
 
 def DataDetailView(request, pk):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
     try:
         idvalues = []
@@ -143,6 +131,17 @@ def DataDetailView(request, pk):
                     idvalues.append(o)
                     break
         newvalues = list(range(1,len(idvalues)+1))
+
+        cnames = ''
+        colname = [desc[0] for desc in cur.description]
+        colname.remove('id')
+        counter = len(colname)
+        for x in colname:
+            cnames = cnames + '' + x + ', '
+        cnames = cnames[:-2]
+
+        cur.execute("""SELECT {} FROM "{}" ORDER BY id;""".format(cnames, title.id))
+        database = cur.fetchall()
 
         for newvalue, idvalue in zip(newvalues, idvalues):
             cur.execute("""UPDATE "{}" SET id = '{}' WHERE id={};""".format(title.id, newvalue, idvalue))
@@ -164,20 +163,14 @@ def DataDetailView(request, pk):
 
     datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
 
-    context = {"dataset": dataset, "rows": rows, "colnames": colnames, "csv": csv, "json": json, "count": count, "count2": count2, "datasets": datasets}
+    context = {"dataset": dataset, "rows": rows, "colnames": colnames, "csv": csv, "json": json, "count": count, "count2": count2, "datasets": datasets, "counter": counter, "database": database, "cnames": cnames, "colname": colname}
     return render(request, "datadetail.html", context)
 
 
 class DownloadJsonView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
         pk = self.kwargs['pk']
         try:
@@ -208,13 +201,7 @@ class DownloadJsonView(APIView):
 class DownloadCsvView(APIView):
 
     def get(self, request, *args, **kwargs):
-        conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+        conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
         pk = self.kwargs['pk']
         try:
@@ -250,13 +237,7 @@ def NewDataView(request):
             dataset.DataSet_Poster = request.user
             dataset.save()
             title = DataSet.objects.last()
-            conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
             cur = conn.cursor()
             cur.execute("""CREATE TABLE "%s"(id serial PRIMARY KEY);""" % str(title.id))
@@ -283,13 +264,7 @@ def NewData2View(request, number):
             if form.is_valid():
                 columnname = request.POST.getlist('cname').pop(index)
                 columntype = "VARCHAR"
-                conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+                conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
                 cur = conn.cursor()
                 cur.execute("""ALTER TABLE "{}" ADD COLUMN "{}" {};""".format(lastDataSet.id, columnname, columntype))
@@ -306,13 +281,7 @@ def NewData2View(request, number):
 
 
 def AddDataView(request, pk):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
@@ -348,26 +317,23 @@ def AddDataView(request, pk):
 
 
 def editRecordView(request, pk, number):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
-    rows = cur.fetchall()
+    row = cur.fetchall()
     colnames = [desc[0] for desc in cur.description]
     count = len(colnames)-1
     cnames = ''
     colname = [desc[0] for desc in cur.description]
     colname.remove('id')
     for x in colname:
-        cnames = cnames + '"' + x + '", '
+        cnames = cnames + '' + x + ', '
     cnames = cnames[:-2]
+    cur.execute("""SELECT {} FROM "{}" WHERE id={} ;""".format(cnames, title.id, number))
+    rows = cur.fetchall()
+    row = rows.pop()
 
     forms = [DataForm(data=request.POST or None) for x in range(int(count))]
     if request.method == 'POST':
@@ -386,19 +352,14 @@ def editRecordView(request, pk, number):
 
         return HttpResponseRedirect(reverse('datasets:datadetail', args=[title.id]))
 
+    zipped = zip(forms, row)
     datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
-    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "rows": rows, "datasets": datasets}
+    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "row": row, "datasets": datasets, "zipped": zipped}
     return render(request, 'editrecord.html', context)
 
 
 def deleteRecordView(request, pk, number):
-    conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+    conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
@@ -408,13 +369,7 @@ def deleteRecordView(request, pk, number):
     if request.method == 'POST':
         form = deleteRecordForm(data=request.POST)
         if form.is_valid():
-            conn = psycopg2.connect(
-        database=url.path[1:],
-        user=url.username,
-        password=url.password,
-        host=url.hostname,
-        port=url.port
-    )
+            conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
             cur = conn.cursor()
             title = DataSet.objects.get(id=pk)
