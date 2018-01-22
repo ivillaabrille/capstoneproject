@@ -399,7 +399,7 @@ def editRecordView(request, pk, number):
                 values = values[:-2]
         cur = conn.cursor()
         for cname, value in zip(colname, request.POST.getlist('dvalue')):
-            cur.execute("""UPDATE "{}" SET {} = '{}' WHERE id={};""".format(title.id, cname, value, number))
+            cur.execute("""UPDATE "{}" SET "{}" = '{}' WHERE id={};""".format(title.id, cname, value, number))
             conn.commit();
         conn.close();
         cur.close();
