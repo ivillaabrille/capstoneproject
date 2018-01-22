@@ -26,8 +26,8 @@ from .permissions import IsOwner
 import os
 from urllib import parse
 
-# parse.uses_netloc.append("postgres")
-# url = parse.urlparse(os.environ["DATABASE_URL"])
+parse.uses_netloc.append("postgres")
+url = parse.urlparse(os.environ["DATABASE_URL"])
 # conn = psycopg2.connect(
 #         database=url.path[1:],
 #         user=url.username,
