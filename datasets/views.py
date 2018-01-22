@@ -354,7 +354,7 @@ def editRecordView(request, pk, number):
 
     zipped = zip(forms, row)
     datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
-    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "row": row, "datasets": datasets, "zipped": zipped}
+    context = {'forms': forms, "colnames": colname, "count": count, "cname": list(reversed(colname)), "row": row, "datasets": datasets, "zipped": zipped, "cnames": cnames}
     return render(request, 'editrecord.html', context)
 
 

@@ -15,7 +15,7 @@
 <center><h2>Edit Record Form</h2></center>
 <form action="." method="post" style="border:1px solid #ccc" role="form">
   <div class="container">
-    <p>This dataset has {{ count }} columns where you can edit data in, following the pattern: {{ colnames }}</p>
+    <p>This dataset has {{ count }} columns where you can edit data in, following the pattern: {{ cnames }}</p>
     {% csrf_token %}
     {% for form, data in zipped %}
     <input type="text" placeholder="Data for '{{ cname.pop }}' Column" id="id_{{ form.dvalue.name }}" value="{{ data }}" name="{{ form.dvalue.name }}" required>
