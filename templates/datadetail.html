@@ -170,7 +170,8 @@
     var table = $('#example').DataTable( {
       "scrollY": '50vh',
       "scrollCollapse": true,
-      "scrollX": true,
+      "sScrollX": "100%",
+      "bScrollCollapse": true,
       initComplete: function () {
         this.api().columns().every( function () {
           var column = this;
