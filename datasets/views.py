@@ -28,13 +28,7 @@ from urllib import parse
 
 parse.uses_netloc.append("postgres")
 url = parse.urlparse(os.environ["DATABASE_URL"])
-# conn = psycopg2.connect(
-#         database=url.path[1:],
-#         user=url.username,
-#         password=url.password,
-#         host=url.hostname,
-#         port=url.port
-#     )
+# conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
 #cur = conn.cursor()
 # Lists all datasets
@@ -425,6 +419,17 @@ def deleteRecordView(request, pk, number):
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
     rows = cur.fetchall()
+    colnames = [desc[0] for desc in cur.description]
+    count = len(colnames)-1
+    cnames = ''
+    colname = [desc[0] for desc in cur.description]
+    colname.remove('id')
+    for x in colname:
+        cnames = cnames + '"' + x + '", '
+    cnames = cnames[:-2]
+    cur.execute("""SELECT {} FROM "{}" WHERE id={} ;""".format(cnames, title.id, number))
+    rows = cur.fetchall()
+    row = rows.pop()
 
     if request.method == 'POST':
         form = deleteRecordForm(data=request.POST)
@@ -449,7 +454,7 @@ def deleteRecordView(request, pk, number):
         form = deleteRecordForm(data=request.POST)
 
     datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
-    context = {'form': form, 'rows': rows, 'datasets': datasets}
+    context = {'form': form, 'row': row, 'datasets': datasets}
     return render(request, 'deleterecord.html', context)
 
 
