@@ -15,7 +15,7 @@
 <center><h2>Add Record Form</h2></center>
 <form action="." method="post" style="border:1px solid #ccc" role="form">
   <div class="container">
-    <p>This dataset has {{ count }} columns where you must add data in, following the pattern: {{ colnames }}</p>
+    <p>This dataset has {{ count }} columns where you must add data in.</p>
     {% csrf_token %}
     {% for form in forms %}
     <input type="text" placeholder="Data for '{{ cname.pop }}'' Column" id="id_{{ form.dvalue.name }}" name="{{ form.dvalue.name }}" required>
