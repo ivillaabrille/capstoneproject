@@ -172,10 +172,8 @@ table {
 {% block js %}
 <script>
   $(document).ready(function() {
-    var table = $('#example').DataTable( {
-      "scrollY": '50vh',
-      "scrollCollapse": true,
-      "scrollX": true,
+    var isdesktop = $(window).width() > 1024;
+    var russianroulette = {
       initComplete: function () {
         this.api().columns().every( function () {
           var column = this;
@@ -201,7 +199,13 @@ table {
           } );
         } );
       }
-    } );
+    }; 
+    if(!isdesktop){
+      russianroulette.scrollY = '50vh';
+      russianroulette.scrollCollapse = true;
+      russianroulette.scrollX = true;
+    }
+    var table = $('#example').DataTable(russianroulette);
     new $.fn.dataTable.Buttons( table, {
       buttons: [
       {
