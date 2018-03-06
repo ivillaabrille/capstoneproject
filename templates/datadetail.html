@@ -7,7 +7,7 @@
    display: table-header-group;
  }
  div.dataTables_wrapper {
-  width: 100%;
+  width: 1100px;
   margin: 0 auto;
 }
 table {
@@ -164,13 +164,18 @@ table {
   </tbody>
 </table>
 <br>
+
+
+
 {% endblock %}
 
 {% block js %}
 <script>
   $(document).ready(function() {
-    var isdesktop = $(window).width() > 1024;
-    var russianroulette = {
+    var table = $('#example').DataTable( {
+      "scrollY": '50vh',
+      "scrollCollapse": true,
+      "scrollX": true,
       initComplete: function () {
         this.api().columns().every( function () {
           var column = this;
@@ -187,22 +192,13 @@ table {
           } );
 
           column.data().unique().sort().each( function ( d, j ) {
-            if (d.substring(0, 40) == '<a href="http://www.google.com/search?q=') {
-              d = d.substring(40, d.indexOf('&amp;tbm=isch" target="blank">'));
-            } 
             var cleaned = d.replace("<center>", "")
             var cleaned2 = cleaned.replace("</center>","")
             select.append( '<option value="'+cleaned2+'">'+cleaned2+'</option>' )
           } );
         } );
       }
-    }; 
-    if(!isdesktop){
-      russianroulette.scrollY = '50vh';
-      russianroulette.scrollCollapse = true;
-      russianroulette.scrollX = true;
-    }
-    var table = $('#example').DataTable(russianroulette);
+    } );
     new $.fn.dataTable.Buttons( table, {
       buttons: [
       {
