@@ -70,9 +70,6 @@ urlpatterns = [
     # /newdata2/
     url(r'^newdata2/(?P<number>[0-9]+)/$', views.NewData2View, name='newdata2'),
 
-    # /about/
-    url(r'^team/$', views.AboutView, name='about'),
-
     # /whatwedo/
     url(r'^whatwedo/$', views.WhatWeDoView, name='whatwedo'),
 

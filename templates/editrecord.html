@@ -5,7 +5,7 @@
   <div class="fh5co-overlay"></div>
   <div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url({% static 'images/last.jpg' %});">
     <div class="desc animate-box">
-      <h2>You are currently editing the record</h2>
+      <h2>You are currently editing the record: {{ row }}</h2>
       <span>Fill in the form below to edit the record.</a></span>
     </div>
   </div>
@@ -15,7 +15,7 @@
 <center><h2>Edit Record Form</h2></center>
 <center><form action="." method="post" style="border:1px solid #ccc" role="form">
   <div class="container">
-    <p>This dataset has {{ count }} columns where you can edit data in.</p>
+    <p>This dataset has {{ count }} columns where you can edit data in, following the pattern: {{ cnames }}</p>
     {% csrf_token %}
     {% for form, data in zipped %}
     <input type="text" placeholder="Data for '{{ cname.pop }}' Column" id="id_{{ form.dvalue.name }}" value="{{ data }}" name="{{ form.dvalue.name }}" required>

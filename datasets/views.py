@@ -28,7 +28,6 @@ from urllib import parse
 
 parse.uses_netloc.append("postgres")
 url = parse.urlparse(os.environ["DATABASE_URL"])
-# conn = psycopg2.connect("dbname=postgres user=postgres password=capstone")
 
 #cur = conn.cursor()
 # Lists all datasets
@@ -55,7 +54,6 @@ class DataSetList(ModelViewSet):
         host=url.hostname,
         port=url.port
     )
-
         cur = conn.cursor()
         cur.execute("""DROP TABLE "{}";""".format(dataset.id))
         conn.commit();
@@ -125,7 +123,6 @@ def DataDetailView(request, pk):
         host=url.hostname,
         port=url.port
     )
-
     try:
         idvalues = []
         dataset = DataSet.objects.get(pk=pk)
@@ -189,7 +186,6 @@ class DownloadJsonView(APIView):
         host=url.hostname,
         port=url.port
     )
-
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -226,7 +222,6 @@ class DownloadCsvView(APIView):
         host=url.hostname,
         port=url.port
     )
-
         pk = self.kwargs['pk']
         try:
             dataset = DataSet.objects.get(pk=pk)
@@ -268,7 +263,6 @@ def NewDataView(request):
         host=url.hostname,
         port=url.port
     )
-
             cur = conn.cursor()
             cur.execute("""CREATE TABLE "%s"(id serial PRIMARY KEY);""" % str(title.id))
             conn.commit();
@@ -301,7 +295,6 @@ def NewData2View(request, number):
         host=url.hostname,
         port=url.port
     )
-
                 cur = conn.cursor()
                 cur.execute("""ALTER TABLE "{}" ADD COLUMN "{}" {};""".format(lastDataSet.id, columnname, columntype))
                 conn.commit();
@@ -324,7 +317,6 @@ def AddDataView(request, pk):
         host=url.hostname,
         port=url.port
     )
-
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" ORDER BY id;""".format(title.id))
@@ -366,7 +358,6 @@ def editRecordView(request, pk, number):
         host=url.hostname,
         port=url.port
     )
-
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -414,7 +405,6 @@ def deleteRecordView(request, pk, number):
         host=url.hostname,
         port=url.port
     )
-
     cur = conn.cursor()
     title = DataSet.objects.get(id=pk)
     cur.execute("""SELECT * FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -441,7 +431,6 @@ def deleteRecordView(request, pk, number):
         host=url.hostname,
         port=url.port
     )
-
             cur = conn.cursor()
             title = DataSet.objects.get(id=pk)
             cur.execute("""DELETE FROM "{}" WHERE id={} ;""".format(title.id, number))
@@ -457,11 +446,6 @@ def deleteRecordView(request, pk, number):
     context = {'form': form, 'row': row, 'datasets': datasets}
     return render(request, 'deleterecord.html', context)
 
-
-def AboutView(request):
-    datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
-    context = {'datasets': datasets}
-    return render(request, 'about.html', context)
 
 def WhatWeDoView(request):
     datasets = DataSet.objects.filter(DataSet_Status='Not yet Approved')
