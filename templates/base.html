@@ -142,11 +142,7 @@
 										</ul>
 									</li>
 									<li>
-										<a href="#" class="fh5co-sub-ddown">About Us</a>
-										<ul class="fh5co-sub-menu">
-											<li><a href="{% url 'datasets:about' %}">The Team</a></li>
-											<li><a href="{% url 'datasets:whatwedo' %}">What We Do</a></li>
-										</ul>
+										<a href="{% url 'datasets:whatwedo' %}" class="fh5co-sub-ddown">What We Do</a>
 									</li>
 									{% if user.is_authenticated and not request.user.is_superuser %}
 									<li>
